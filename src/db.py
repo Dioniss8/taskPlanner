@@ -19,3 +19,7 @@ class DataBase:
                             VALUES (:description, :done, :deleted, :created_at)""",
                         description=description, done=done_default,
                         deleted=deleted_default, created_at=created_at)
+
+    def deleteTask(self, task_id):
+        self.db.execute("""INSERT INTO tasks (deleted)
+                            VALUES (1) WHERE id=:id""", id=task_id)
