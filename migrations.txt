@@ -1,0 +1,7 @@
+CREATE TABLE tasks (
+	id INTEGER PRIMARY KEY NOT NULL,
+	description TEXT NOT NULL,
+    done INTEGER NOT NULL,
+    deleted INTEGER,
+    created_at TIMESTAMP
+);
