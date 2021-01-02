@@ -5,5 +5,24 @@
 {% endblock %}
 
 {% block main %}
-    {{ data }}
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col-lg-8">Description</th>
+            <th scope="col">Date</th>
+            <th scope="col">Options</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for row in data %}
+            <tr>
+                <th scope="row">{{ row["id"] }}</th>
+                <td>{{ row["description"] }}</td>
+                <td>{{ row["created_at"] }}</td>
+                <td>Buttons</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

@@ -7,7 +7,7 @@ class DataBase:
         self.db = SQL("sqlite:///tasks.db")
 
     def getAllTasks(self):
-        tasks = self.db.execute("SELECT * FROM tasks")
+        tasks = self.db.execute("SELECT * FROM tasks WHERE deleted NOT IN (1)")
 
         return tasks
 
