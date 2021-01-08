@@ -1,6 +1,9 @@
 from cs50 import SQL
 from datetime import datetime
 
+DEFAULT_DONE = 0
+DEFAULT_DELETED = 0
+
 
 class DataBase:
     def __init__(self):
@@ -12,13 +15,11 @@ class DataBase:
         return tasks
 
     def setTask(self, description):
-        done_default = 0
-        deleted_default = 0
         created_at = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         self.db.execute("""INSERT INTO tasks (description, done, deleted, created_at)
                             VALUES (:description, :done, :deleted, :created_at)""",
-                        description=description, done=done_default,
-                        deleted=deleted_default, created_at=created_at)
+                        description=description, done=DEFAULT_DONE,
+                        deleted=DEFAULT_DELETED, created_at=created_at)
 
     def deleteTask(self, task_id):
         self.db.execute("""INSERT INTO tasks (deleted)
