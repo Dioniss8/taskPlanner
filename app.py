@@ -63,8 +63,7 @@ def lists():
         items = []
         for i in range(length - 1):
             items.append(request.form.get(str(i)))
-        before = len(dataBaseObj.getCategoryByName(name))
-        if before > 0:
+        if dataBaseObj.hasActiveCategoryByName(name):
             return redirect('/lists')
         dataBaseObj.saveCategory(name, length - 1)
         category = dataBaseObj.getCategoryByName(name)[0]
@@ -84,7 +83,9 @@ def viewList():
             return redirect('/lists')
         categoryName = items[0]["cat_name"]
         return render_template('lists/view.html',
-                               categoryName=categoryName, items=items)
+                               categoryName=categoryName,
+                               items=items,
+                               categoryId=categoryId)
 
 
 @app.route('/lists/delete', methods=["GET"])
@@ -93,6 +94,16 @@ def deleteList():
     if request.method == "GET":
         categoryId = request.args.get("id")
         dataBaseObj.deleteListByCategoryId(categoryId)
+        return redirect('/lists')
+
+
+@app.route('/lists/view/add', methods=["POST"])
+def addItemToList():
+
+    if request.method == "POST":
+        newItem = request.form.get("newItem")
+        categoryId = request.form.get("categoryId")
+        dataBaseObj.saveItem(newItem, categoryId)
         return redirect('/lists')
 
 

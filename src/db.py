@@ -46,11 +46,32 @@ class DataBase:
     def getCategoryByName(self, catName):
         category = self.db.execute("""SELECT *
                                         FROM categories
-                                        WHERE cat_name=:cat_name""",
+                                        WHERE cat_name=:cat_name
+                                        AND deleted = 0""",
                                    cat_name=catName)
         return category
 
+    def hasActiveCategoryByName(self, catName):
+        categories = self.db.execute("""SELECT *
+                                        FROM categories
+                                        WHERE cat_name=:catName
+                                        AND deleted = 0""",
+                                     catName=catName)
+        return len(categories) > 0
+
+    def addLengthCategory(self, categoryId):
+        currentCount = self.db.execute("""SELECT *
+                                            FROM categories
+                                            WHERE id=:categoryId""",
+                                       categoryId=categoryId)
+        self.db.execute("""UPDATE categories
+                            SET len=:newCount
+                            WHERE id=:categoryId""",
+                        newCount=currentCount[0]["len"] + 1,
+                        categoryId=categoryId)
+
     def saveItem(self, itemName, cat_id):
+        self.addLengthCategory(cat_id)
         self.db.execute("""INSERT INTO items (item_name, cat_id, deleted)
                             VALUES (:item_name, :cat_id, :deleted)""",
                         item_name=itemName, cat_id=cat_id, deleted=DEFAULT_DELETED)
@@ -60,6 +81,13 @@ class DataBase:
                                     FROM categories
                                     WHERE deleted = 0""")
         return lists
+
+    def getItemsByCategoryId(self, categoryId):
+        items = self.db.execute("""SELECT *
+                                    FROM items
+                                    WHERE cat_id=:categoryId""",
+                                categoryId=categoryId)
+        return items
 
     def getListByCategoryId(self, categoryId):
         items = self.db.execute("""SELECT *
@@ -82,7 +110,7 @@ class DataBase:
                         itemId=itemId)
 
     def deleteListByCategoryId(self, categoryId):
-        items = self.getListByCategoryId(categoryId)
+        items = self.getItemsByCategoryId(categoryId)
         for row in items:
             itemId = row["id"]
             self.deleteItemById(itemId)
