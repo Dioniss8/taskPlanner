@@ -17,7 +17,26 @@
         <div id="items"></div>
     </form>
 
-    {{ lists }}
+    {% if lists %}
+            <table class="table">
+        <thead>
+        <tr>
+            <th class="col-lg-sm-1" scope="col">#</th>
+            <th class="col-lg-md-sm-6" scope="col">Description</th>
+            <th class="col-lg-sm-1" scope="col">Length</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for row in lists %}
+            <tr>
+                <td>{{ row["id"] }}</td>
+                <td>{{ row["cat_name"] }}</td>
+                <td>{{ row["len"] }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
 
     <script src="static/test.js"></script>
 {% endblock %}
