@@ -85,7 +85,7 @@ def lists():
         for item in items:
             dataBaseObj.saveItem(item, cat_id)
 
-        return redirect('/')
+        return redirect('/lists')
 
 
 if __name__ == '__main__':
