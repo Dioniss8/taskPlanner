@@ -56,8 +56,9 @@ def edit():
 def lists():
 
     if request.method == "GET":
+        data = dataBaseObj.getAllLists()
 
-        return render_template('lists.html')
+        return render_template('lists.html', lists=data)
     else:
         length = len(request.form)
         if length < 2:
@@ -78,7 +79,7 @@ def lists():
 
             return redirect('/lists')
 
-        dataBaseObj.saveCategory(name)
+        dataBaseObj.saveCategory(name, length - 1)
         category = dataBaseObj.getCategoryByName(name)[0]
         cat_id = category["id"]
         for item in items:

@@ -13,7 +13,9 @@ CATEGORIES
 
 CREATE TABLE categories (
 	id INTEGER PRIMARY KEY NOT NULL,
-	name TEXT NOT NULL
+	len INTEGER NOT NULL,
+	deleted INTEGER NOT NULL,
+	cat_name TEXT NOT NULL
 );
 
 -----------------------------------------------------------------
@@ -22,6 +24,7 @@ ITEMS
 CREATE TABLE items (
 	id INTEGER PRIMARY KEY NOT NULL,
 	item_name TEXT NOT NULL,
+	deleted INTEGER NOT NULL,
 	cat_id INTEGER NOT NULL,
 	FOREIGN KEY (cat_id)
         REFERENCES categories (id)

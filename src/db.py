@@ -35,20 +35,28 @@ class DataBase:
     def saveDescription(self, text, taskId):
         self.db.execute("""UPDATE tasks
                             set description = :text
-                            WHERE id=:taskId""", text=text, taskId=taskId)
+                            WHERE id=:taskId""",
+                        text=text, taskId=taskId)
 
-    def saveCategory(self, name):
-        self.db.execute("""INSERT INTO categories (cat_name)
-                            VALUES (:cat_name)""", cat_name=name)
+    def saveCategory(self, name, length):
+        self.db.execute("""INSERT INTO categories (cat_name, len, deleted)
+                            VALUES (:cat_name, :len, :deleted)""",
+                        cat_name=name, len=length, deleted=DEFAULT_DELETED)
 
     def getCategoryByName(self, catName):
         category = self.db.execute("""SELECT *
                                         FROM categories
-                                        WHERE cat_name=:cat_name""", cat_name=catName)
+                                        WHERE cat_name=:cat_name""",
+                                   cat_name=catName)
         return category
 
     def saveItem(self, itemName, cat_id):
-        self.db.execute("""INSERT INTO items (item_name, cat_id)
-                            VALUES (:item_name, :cat_id)""",
-                        item_name=itemName, cat_id=cat_id)
+        self.db.execute("""INSERT INTO items (item_name, cat_id, deleted)
+                            VALUES (:item_name, :cat_id, :deleted)""",
+                        item_name=itemName, cat_id=cat_id, deleted=DEFAULT_DELETED)
+
+    def getAllLists(self):
+        lists = self.db.execute("""SELECT *
+                                    FROM categories""")
+        return lists
 
