@@ -38,12 +38,17 @@ class DataBase:
                             WHERE id=:taskId""", text=text, taskId=taskId)
 
     def saveCategory(self, name):
-        self.db.execute("""INSERT INTO categories (name)
-                            VALUES (:name)""", name=name)
+        self.db.execute("""INSERT INTO categories (cat_name)
+                            VALUES (:cat_name)""", cat_name=name)
 
-    def getCategoryName(self, itemName):
+    def getCategoryByName(self, catName):
         category = self.db.execute("""SELECT *
                                         FROM categories
-                                        WHERE item_name=:item_name""", item_name=itemName)
+                                        WHERE cat_name=:cat_name""", cat_name=catName)
         return category
+
+    def saveItem(self, itemName, cat_id):
+        self.db.execute("""INSERT INTO items (item_name, cat_id)
+                            VALUES (:item_name, :cat_id)""",
+                        item_name=itemName, cat_id=cat_id)
 

@@ -61,15 +61,30 @@ def lists():
     else:
         length = len(request.form)
         if length < 2:
-            return redirect('lists')
+
+            return redirect('/lists')
+
         name = request.form.get("category")
+        if len(name) < 1:
+
+            return redirect('/lists')
+
         items = []
         for i in range(length - 1):
             items.append(request.form.get(str(i)))
 
-        total = [name, items]
+        before = len(dataBaseObj.getCategoryByName(name))
+        if before > 0:
 
-        return render_template('debug.html', data=total)
+            return redirect('/lists')
+
+        dataBaseObj.saveCategory(name)
+        category = dataBaseObj.getCategoryByName(name)[0]
+        cat_id = category["id"]
+        for item in items:
+            dataBaseObj.saveItem(item, cat_id)
+
+        return redirect('/')
 
 
 if __name__ == '__main__':
