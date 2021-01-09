@@ -5,7 +5,6 @@
 {% endblock %}
 
 {% block main %}
-    {{ lists }}
     <div class="mb-16">
         <button onclick="addQuestion();" class="btn btn-primary">Add</button>
         <button onclick="sleeper();" type="submit" form="form_0" class="btn btn-primary">Submit</button>
@@ -17,5 +16,8 @@
         </div>
         <div id="items"></div>
     </form>
+
+    {{ lists }}
+
     <script src="static/test.js"></script>
 {% endblock %}
