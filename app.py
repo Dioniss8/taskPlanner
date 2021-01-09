@@ -69,7 +69,7 @@ def lists():
         category = dataBaseObj.getCategoryByName(name)[0]
         cat_id = category["id"]
         for item in items:
-            dataBaseObj.saveItem(item, cat_id)
+            dataBaseObj.saveItem(item, cat_id, True)
         return redirect('/lists')
 
 
