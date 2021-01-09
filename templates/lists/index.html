@@ -23,7 +23,7 @@
         <tr>
             <th class="col-lg-md-sm-6" scope="col">Description</th>
             <th class="col-lg-sm-3" scope="col">Length</th>
-            <th class="col-lg-sm-1" scope="col"></th>
+            <th class="col-lg-sm-3" scope="col"></th>
         </tr>
         </thead>
         <tbody>
@@ -32,7 +32,9 @@
                 <td>{{ row["cat_name"] }}</td>
                 <td>{{ row["len"] }}</td>
                 <td>
-                    <a class="btn btn-primary" href="/lists/view?id={{ row["id"] }}">View</a>
+                    <div class="right">
+                        <a class="btn btn-primary" href="/lists/view?id={{ row["id"] }}">View</a>
+                    </div>
                 </td>
                 <!--
                 <td>
