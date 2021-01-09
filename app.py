@@ -109,6 +109,7 @@ def addItemToList():
 
 @app.route('/lists/view/delete', methods=["GET"])
 def deleteItemInView():
+
     if request.method == "GET":
         itemId = int(request.args.get("id"))
         dataBaseObj.deleteItemById(itemId)
