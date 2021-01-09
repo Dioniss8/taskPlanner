@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect
 from src.db import DataBase
+from src.helpers import hasEmptyElements
 
 app = Flask(__name__)
 app.debug = True
@@ -63,6 +64,8 @@ def lists():
         items = []
         for i in range(length - 1):
             items.append(request.form.get(str(i)))
+        if hasEmptyElements(items):
+            return redirect('/lists')
         if dataBaseObj.hasActiveCategoryByName(name):
             return redirect('/lists')
         dataBaseObj.saveCategory(name, length - 1)
@@ -103,8 +106,10 @@ def addItemToList():
     if request.method == "POST":
         newItem = request.form.get("newItem")
         categoryId = request.form.get("categoryId")
+        if len(newItem) < 1:
+            return redirect('/lists/view?id' + categoryId)
         dataBaseObj.saveItem(newItem, categoryId)
-        return redirect('/lists')
+        return redirect('/lists/view?id=' + categoryId)
 
 
 @app.route('/lists/view/delete', methods=["GET"])
