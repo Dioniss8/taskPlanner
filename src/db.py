@@ -59,15 +59,19 @@ class DataBase:
                                      catName=catName)
         return len(categories) > 0
 
-    def addLengthCategory(self, categoryId):
+    def addLengthCategory(self, categoryId, opp=False):
         currentCount = self.db.execute("""SELECT *
                                             FROM categories
                                             WHERE id=:categoryId""",
                                        categoryId=categoryId)
+        if opp:
+            diff = -1
+        else:
+            diff = 1
         self.db.execute("""UPDATE categories
                             SET len=:newCount
                             WHERE id=:categoryId""",
-                        newCount=currentCount[0]["len"] + 1,
+                        newCount=currentCount[0]["len"] + diff,
                         categoryId=categoryId)
 
     def saveItem(self, itemName, cat_id, creation=False):
@@ -91,10 +95,11 @@ class DataBase:
         return items
 
     def getListByCategoryId(self, categoryId):
-        items = self.db.execute("""SELECT *
+        items = self.db.execute("""SELECT *, i.id as itemId
                                     FROM items as i
                                     JOIN categories as c on i.cat_id=c.id
-                                    where c.id = :categoryId""",
+                                    where c.id = :categoryId
+                                    AND i.deleted = 0""",
                                 categoryId=categoryId)
         return items
 

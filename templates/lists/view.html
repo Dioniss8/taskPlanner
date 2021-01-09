@@ -23,6 +23,7 @@
     {% for item in items %}
         <li class="list-group-item">
             {{ item["item_name"] }}
+            <a class="btn btn-danger right" href="/lists/view/delete?id={{ item["itemId"] }}&cat_id={{ categoryId }}">Delete</a>
         </li>
     {% endfor %}
     </ul>

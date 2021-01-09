@@ -107,5 +107,15 @@ def addItemToList():
         return redirect('/lists')
 
 
+@app.route('/lists/view/delete', methods=["GET"])
+def deleteItemInView():
+    if request.method == "GET":
+        itemId = int(request.args.get("id"))
+        dataBaseObj.deleteItemById(itemId)
+        categoryId = request.args.get("cat_id")
+        dataBaseObj.addLengthCategory(categoryId, True)
+        return redirect('/lists')
+
+
 if __name__ == '__main__':
     app.run()
