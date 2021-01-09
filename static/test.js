@@ -14,9 +14,3 @@ function addQuestion()
     itemCount = itemCount + 1;
     console.log(itemCount);
 }
-
-function sleeper()
-{
-    console.log("Hello");
-    setTimeout(() => {  console.log("World!"); }, 2000);
-}
