@@ -64,12 +64,10 @@ def lists():
         if length < 2:
 
             return redirect('/lists')
-
         name = request.form.get("category")
         if len(name) < 1:
 
             return redirect('/lists')
-
         items = []
         for i in range(length - 1):
             items.append(request.form.get(str(i)))
@@ -78,7 +76,6 @@ def lists():
         if before > 0:
 
             return redirect('/lists')
-
         dataBaseObj.saveCategory(name, length - 1)
         category = dataBaseObj.getCategoryByName(name)[0]
         cat_id = category["id"]
