@@ -8,20 +8,26 @@
     <table class="table">
         <thead>
         <tr>
-            <th class="col-lg-sm-1" scope="col">#</th>
-            <th class="col-lg-sm-6" scope="col">Description</th>
+            <th class="col-lg-md-sm-7" scope="col">Description</th>
             <th class="col-lg-sm-3" scope="col">Date</th>
-            <th class="col-lg-sm-2" scope="col">Options</th>
+            <th class="col-lg-sm-1" scope="col"></th>
+            <th class="col-lg-sm-1" scope="col"></th>
         </tr>
         </thead>
         <tbody>
         {% for row in data %}
             <tr>
-                <th scope="row">{{ row["id"] }}</th>
                 <td>{{ row["description"] }}</td>
                 <td>{{ row["created_at"] }}</td>
                 <td>
-                    Buttons
+                    <a class="btn btn-secondary" href="/delete?id={{ row["id"] }}">
+                        Delete
+                    </a>
+                </td>
+                <td>
+                    <a class="btn btn-secondary" href="/edit?id={{ row["id"] }}">
+                        Edit
+                    </a>
                 </td>
             </tr>
         {% endfor %}

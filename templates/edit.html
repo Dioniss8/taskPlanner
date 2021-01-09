@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Add Task
+{% endblock %}
+
+{% block main %}
+    <form method="post" action="/edit">
+        <div class="form-group">
+            <input type="hidden" name="id" value="{{ taskId }}">
+            <label for="taskDescription">Task description</label>
+            <textarea class="form-control" id="editedDesc" name="editedDesc" rows="3">{{ previous }}</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+{% endblock %}

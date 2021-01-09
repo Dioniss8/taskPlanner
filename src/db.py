@@ -10,7 +10,7 @@ class DataBase:
         self.db = SQL("sqlite:///tasks.db")
 
     def getAllTasks(self):
-        tasks = self.db.execute("SELECT * FROM tasks WHERE deleted NOT IN (1)")
+        tasks = self.db.execute("SELECT * FROM tasks WHERE deleted = 0")
 
         return tasks
 
@@ -21,6 +21,20 @@ class DataBase:
                         description=description, done=DEFAULT_DONE,
                         deleted=DEFAULT_DELETED, created_at=created_at)
 
-    def deleteTask(self, task_id):
-        self.db.execute("""INSERT INTO tasks (deleted)
-                            VALUES (1) WHERE id=:id""", id=task_id)
+    def deleteTask(self, taskId):
+        self.db.execute("""UPDATE tasks
+                            SET deleted = 1
+                            WHERE id=:taskId""", taskId=taskId)
+
+    def getTaskById(self, taskId):
+        tasks = self.db.execute("""SELECT *
+                            FROM tasks
+                            WHERE id=:taskId""", taskId=taskId)
+
+        return tasks
+
+    def saveDescription(self, text, taskId):
+        self.db.execute("""UPDATE tasks
+                            set description = :text
+                            WHERE id=:taskId""", text=text, taskId=taskId)
+
