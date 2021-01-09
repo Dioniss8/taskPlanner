@@ -52,12 +52,24 @@ def edit():
         return redirect('/')
 
 
-@app.route('/lists', methods=["GET"])
+@app.route('/lists', methods=["GET", "POST"])
 def lists():
 
     if request.method == "GET":
 
-        return render_template('index-lists.html')
+        return render_template('lists.html')
+    else:
+        length = len(request.form)
+        if length < 2:
+            return redirect('lists')
+        name = request.form.get("category")
+        items = []
+        for i in range(length - 1):
+            items.append(request.form.get(str(i)))
+
+        total = [name, items]
+
+        return render_template('debug.html', data=total)
 
 
 if __name__ == '__main__':

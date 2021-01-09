@@ -30,7 +30,6 @@ class DataBase:
         tasks = self.db.execute("""SELECT *
                             FROM tasks
                             WHERE id=:taskId""", taskId=taskId)
-
         return tasks
 
     def saveDescription(self, text, taskId):
@@ -41,3 +40,10 @@ class DataBase:
     def saveCategory(self, name):
         self.db.execute("""INSERT INTO categories (name)
                             VALUES (:name)""", name=name)
+
+    def getCategoryName(self, itemName):
+        category = self.db.execute("""SELECT *
+                                        FROM categories
+                                        WHERE item_name=:item_name""", item_name=itemName)
+        return category
+
