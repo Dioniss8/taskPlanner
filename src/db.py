@@ -38,3 +38,6 @@ class DataBase:
                             set description = :text
                             WHERE id=:taskId""", text=text, taskId=taskId)
 
+    def saveCategory(self, name):
+        self.db.execute("""INSERT INTO categories (name)
+                            VALUES (:name)""", name=name)

@@ -9,3 +9,10 @@ CREATE TABLE tasks (
 );
 
 -----------------------------------------------------------------
+CATEGORIES
+
+CREATE TABLE categories (
+	id INTEGER PRIMARY KEY NOT NULL,
+	name TEXT NOT NULL
+);
+

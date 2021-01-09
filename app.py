@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect
 from src.db import DataBase
 
 app = Flask(__name__)
+app.debug = True
 
 dataBaseObj = DataBase()
 
@@ -49,6 +50,14 @@ def edit():
         dataBaseObj.saveDescription(text, taskId)
 
         return redirect('/')
+
+
+@app.route('/lists', methods=["GET"])
+def lists():
+
+    if request.method == "GET":
+
+        return render_template('index-lists.html')
 
 
 if __name__ == '__main__':
