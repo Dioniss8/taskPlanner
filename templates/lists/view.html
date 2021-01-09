@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Add Task
+{% endblock %}
+
+{% block main %}
+    <h1>{{ categoryName }}</h1>
+
+    {% if items %}
+    <ul class="list-group">
+    {% for item in items %}
+        <li class="list-group-item">
+            {{ item["item_name"] }}
+        </li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+{% endblock %}

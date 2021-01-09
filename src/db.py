@@ -34,7 +34,7 @@ class DataBase:
 
     def saveDescription(self, text, taskId):
         self.db.execute("""UPDATE tasks
-                            set description = :text
+                            SET description = :text
                             WHERE id=:taskId""",
                         text=text, taskId=taskId)
 
@@ -55,8 +55,36 @@ class DataBase:
                             VALUES (:item_name, :cat_id, :deleted)""",
                         item_name=itemName, cat_id=cat_id, deleted=DEFAULT_DELETED)
 
-    def getAllLists(self):
+    def getAllCategories(self):
         lists = self.db.execute("""SELECT *
-                                    FROM categories""")
+                                    FROM categories
+                                    WHERE deleted = 0""")
         return lists
 
+    def getListByCategoryId(self, categoryId):
+        items = self.db.execute("""SELECT *
+                                    FROM items as i
+                                    JOIN categories as c on i.cat_id=c.id
+                                    where c.id = :categoryId""",
+                                categoryId=categoryId)
+        return items
+
+    def deleteCategoryById(self, categoryId):
+        self.db.execute("""UPDATE categories
+                            SET deleted = 1
+                            WHERE id=:categoryId""",
+                        categoryId=categoryId)
+
+    def deleteItemById(self, itemId):
+        self.db.execute("""UPDATE items
+                            SET deleted = 1
+                            WHERE id=:itemId""",
+                        itemId=itemId)
+
+    def deleteListByCategoryId(self, categoryId):
+        items = self.getListByCategoryId(categoryId)
+        for row in items:
+            itemId = row["id"]
+            self.deleteItemById(itemId)
+
+        self.deleteCategoryById(categoryId)
