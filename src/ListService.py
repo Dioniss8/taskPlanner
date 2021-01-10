@@ -24,3 +24,6 @@ class ListService:
 
         return True, error
 
+
+    '''def viewListById(self, id):
+        items = self.databaseRepo.getListByCategoryId(id)'''
