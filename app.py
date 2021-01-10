@@ -1,9 +1,10 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, flash, render_template, request, redirect
 from src.db import DataBase
 from src.helpers import hasEmptyElements
 
 app = Flask(__name__)
 app.debug = True
+app.secret_key = b'1231241421838129'
 
 dataBaseObj = DataBase()
 
@@ -53,20 +54,25 @@ def lists():
 
     if request.method == "GET":
         data = dataBaseObj.getAllCategories()
-        return render_template('lists/index.html', lists=data)
+        return render_template('lists/index.html',
+                               lists=data)
     else:
         length = len(request.form)
         if length < 2:
+            flash("we need at least 1 item")
             return redirect('/lists')
         name = request.form.get("category")
         if len(name) < 1:
+            flash("list of nothing?!?")
             return redirect('/lists')
         items = []
         for i in range(length - 1):
             items.append(request.form.get(str(i)))
         if hasEmptyElements(items):
+            flash("those input boxes are meant to be used")
             return redirect('/lists')
         if dataBaseObj.hasActiveCategoryByName(name):
+            flash("you have such list already")
             return redirect('/lists')
         dataBaseObj.saveCategory(name, length - 1)
         category = dataBaseObj.getCategoryByName(name)[0]
@@ -79,6 +85,7 @@ def lists():
 @app.route('/lists/view', methods=["GET", "POST"])
 def viewList():
 
+    error = None
     if request.method == "GET":
         categoryId = request.args.get("id")
         items = dataBaseObj.getListByCategoryId(categoryId)

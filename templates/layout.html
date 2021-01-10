@@ -19,7 +19,21 @@
 
     </head>
 
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <ul class=flashes>
+            {% for message in messages %}
+                <div class="alert alert-danger">
+                    <strong>Bro </strong> {{ message }}
+                </div>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    {% endwith %}
+
+
     <body>
+
 
         <nav class="navbar navbar-expand-md navbar-light bg-light border">
             <a class="navbar-brand" href="/"><span class="blue">Planner</span></a>

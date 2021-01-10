@@ -8,8 +8,11 @@
     <div>
         <h1>{{ categoryName }}</h1>
         <button type="submit" form="form_add" class="btn btn-primary">Add Item</button>
+        <a class="btn btn-primary" href="/lists">Back</a>
     </div>
+
     <br/>
+
     <div class="item_add">
         <form class="mt-16" id="form_add" method="post" action="/lists/view/add">
             <div class="form-group">
@@ -17,7 +20,9 @@
                 <input type="hidden" class="form-control mb-8" id="categoryId" name="categoryId" value="{{ categoryId }}">
             </div>
         </form>
+
     </div>
+
     {% if items %}
     <ul class="list-group">
     {% for item in items %}
@@ -28,4 +33,5 @@
     {% endfor %}
     </ul>
     {% endif %}
+
 {% endblock %}
