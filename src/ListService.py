@@ -24,6 +24,26 @@ class ListService:
 
         return True, error
 
+    def viewListByCategoryId(self, categoryId):
+        items = self.databaseRepo.getListByCategoryId(categoryId)
+        success, error = helpers.isListFound(items)
+        if not success:
+            return False, error
 
-    '''def viewListById(self, id):
-        items = self.databaseRepo.getListByCategoryId(id)'''
+        categoryName = items[0]["cat_name"]
+        data = {"categoryName": categoryName,
+                "items": items,
+                "categoryId": categoryId}
+
+        return True, data
+
+    def addItemToExistingList(self, newItem, categoryId):
+        success, error = helpers.isItemValid(newItem)
+        if not success:
+            return False, error
+
+        self.databaseRepo.saveItem(newItem, categoryId)
+
+        return True, error
+
+

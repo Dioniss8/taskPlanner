@@ -8,6 +8,7 @@ DEFAULT_DELETED = 0
 class DataBase:
 
     DEFAULT_MIN_LIST_LENGTH = 2
+    DEFAULT_MIN_ITEM_LENGTH = 1
     DEFAULT_MIN_STRING_LENGTH = 1
 
     def __init__(self):

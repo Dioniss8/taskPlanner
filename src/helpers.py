@@ -37,3 +37,21 @@ def isItemListValid(items):
         return False, error
 
     return True, error
+
+
+def isListFound(items):
+    error = None
+    if not hasMinElements(len(items), databaseObj.DEFAULT_MIN_ITEM_LENGTH):
+        error = "list not found"
+        return False, error
+
+    return True, error
+
+
+def isItemValid(item):
+    error = None
+    if not hasMinElements(len(item), databaseObj.DEFAULT_MIN_STRING_LENGTH):
+        error = "can't be empty"
+        return False, error
+
+    return True, error

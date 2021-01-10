@@ -78,15 +78,14 @@ def viewList():
 
     if request.method == "GET":
         categoryId = request.args.get("id")
-        items = dataBaseObj.getListByCategoryId(categoryId)
-        if len(items) < 1:
-            flash("list not found")
+        success, value = ListService.viewListByCategoryId(categoryId)
+        if not success:
+            flash(value)
             return redirect('/lists')
-        categoryName = items[0]["cat_name"]
         return render_template('lists/view.html',
-                               categoryName=categoryName,
-                               items=items,
-                               categoryId=categoryId)
+                               categoryName=value["categoryName"],
+                               items=value["items"],
+                               categoryId=value["categoryId"])
 
 
 @app.route('/lists/delete', methods=["GET"])
@@ -104,10 +103,10 @@ def addItemToList():
     if request.method == "POST":
         newItem = request.form.get("newItem")
         categoryId = request.form.get("categoryId")
-        if len(newItem) < 1:
-            flash("can't be empty")
-            return redirect('/lists/view?id' + categoryId)
-        dataBaseObj.saveItem(newItem, categoryId)
+        success, value = ListService.addItemToExistingList(newItem, categoryId)
+        if not success:
+            flash(value)
+
         return redirect('/lists/view?id=' + categoryId)
 
 
