@@ -46,4 +46,9 @@ class ListService:
 
         return True, error
 
+    def deleteListByCategoryId(self, categoryId):
+        self.databaseRepo.deleteListByCategoryId(categoryId)
 
+    def deleteItemAndAdjustCategory(self, itemId, categoryId):
+        self.databaseRepo.deleteItemById(itemId)
+        self.databaseRepo.addLengthCategory(categoryId, True)

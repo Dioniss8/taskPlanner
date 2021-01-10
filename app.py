@@ -1,6 +1,7 @@
 from flask import Flask, flash, render_template, request, redirect
 from src.Db import DataBase
 from src.ListService import ListService
+from src.TaskService import TaskService
 
 app = Flask(__name__)
 app.debug = True
@@ -8,22 +9,24 @@ app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 dataBaseObj = DataBase()
 ListService = ListService()
+TaskService = TaskService()
 
 
 @app.route('/')
 def hello_world():
-    data = dataBaseObj.getAllTasks()
+    data = TaskService.getAllTasks()
     return render_template('tasks/index.html', data=data)
 
 
 @app.route('/add', methods=["GET", "POST"])
 def add_task():
     if request.method == "GET":
+
         return render_template('tasks/add.html')
     else:
         description = request.form.get("taskDescription")
-        dataBaseObj.setTask(description)
-        data = dataBaseObj.getAllTasks()
+        data = TaskService.addTaskAndReturnAll(description)
+
         return render_template('tasks/index.html', data=data)
 
 
@@ -31,7 +34,8 @@ def add_task():
 def delete():
     if request.method == "GET":
         taskId = int(request.args.get("id"))
-        dataBaseObj.deleteTask(taskId)
+        TaskService.deleteTaskById(taskId)
+
         return redirect('/')
 
 
@@ -40,13 +44,16 @@ def edit():
 
     if request.method == "GET":
         taskId = int(request.args.get("id"))
-        task = dataBaseObj.getTaskById(taskId)[0]
-        previous = task["description"]
-        return render_template('tasks/edit.html', previous=previous, taskId=taskId)
+        data = TaskService.getPreviousTaskById(taskId)
+
+        return render_template('tasks/edit.html',
+                               previous=data["previous"],
+                               taskId=data["taskId"])
     else:
         text = str(request.form.get("editedDesc"))
         taskId = int(request.form.get("id"))
-        dataBaseObj.saveDescription(text, taskId)
+        TaskService.saveNewValueByTaskId(text, taskId)
+
         return redirect('/')
 
 
@@ -93,7 +100,7 @@ def deleteList():
 
     if request.method == "GET":
         categoryId = request.args.get("id")
-        dataBaseObj.deleteListByCategoryId(categoryId)
+        ListService.deleteListByCategoryId(categoryId)
         return redirect('/lists')
 
 
@@ -115,9 +122,8 @@ def deleteItemInView():
 
     if request.method == "GET":
         itemId = int(request.args.get("id"))
-        dataBaseObj.deleteItemById(itemId)
         categoryId = request.args.get("cat_id")
-        dataBaseObj.addLengthCategory(categoryId, True)
+        ListService.deleteItemAndAdjustCategory(itemId, categoryId)
         return redirect('/lists')
 
 
