@@ -4,7 +4,7 @@ from src.helpers import hasEmptyElements
 
 app = Flask(__name__)
 app.debug = True
-app.secret_key = b'1231241421838129'
+app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 dataBaseObj = DataBase()
 
@@ -85,11 +85,11 @@ def lists():
 @app.route('/lists/view', methods=["GET", "POST"])
 def viewList():
 
-    error = None
     if request.method == "GET":
         categoryId = request.args.get("id")
         items = dataBaseObj.getListByCategoryId(categoryId)
         if len(items) < 1:
+            flash("list not found")
             return redirect('/lists')
         categoryName = items[0]["cat_name"]
         return render_template('lists/view.html',
@@ -114,6 +114,7 @@ def addItemToList():
         newItem = request.form.get("newItem")
         categoryId = request.form.get("categoryId")
         if len(newItem) < 1:
+            flash("can't be empty")
             return redirect('/lists/view?id' + categoryId)
         dataBaseObj.saveItem(newItem, categoryId)
         return redirect('/lists/view?id=' + categoryId)
