@@ -6,6 +6,10 @@ DEFAULT_DELETED = 0
 
 
 class DataBase:
+
+    DEFAULT_MIN_LIST_LENGTH = 2
+    DEFAULT_MIN_STRING_LENGTH = 1
+
     def __init__(self):
         self.db = SQL("sqlite:///tasks.db")
 
@@ -38,7 +42,7 @@ class DataBase:
                             WHERE id=:taskId""",
                         text=text, taskId=taskId)
 
-    def saveCategory(self, name, length):
+    def addCategory(self, name, length):
         self.db.execute("""INSERT INTO categories (cat_name, len, deleted)
                             VALUES (:cat_name, :len, :deleted)""",
                         cat_name=name, len=length, deleted=DEFAULT_DELETED)
