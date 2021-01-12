@@ -1,3 +1,12 @@
+USERS
+
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY NOT NULL,
+    username TEXT NOT NULL,
+    hashed_pass TEXT NOT NULL
+);
+
+----------------------------------------------------------------
 TASKS
 
 CREATE TABLE tasks (
@@ -5,7 +14,10 @@ CREATE TABLE tasks (
 	description TEXT NOT NULL,
     done INTEGER NOT NULL,
     deleted INTEGER,
-    created_at TIMESTAMP
+    created_at TIMESTAMP,
+    user_id INTEGER,
+    FOREIGN KEY (user_id)
+        REFERENCES users
 );
 
 -----------------------------------------------------------------
@@ -15,7 +27,10 @@ CREATE TABLE categories (
 	id INTEGER PRIMARY KEY NOT NULL,
 	len INTEGER NOT NULL,
 	deleted INTEGER NOT NULL,
-	cat_name TEXT NOT NULL
+	cat_name TEXT NOT NULL,
+	user_id INTEGER,
+	FOREIGN KEY (user_id)
+	    REFERENCES users
 );
 
 -----------------------------------------------------------------
