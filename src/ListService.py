@@ -1,5 +1,5 @@
 from src.Db import DataBase
-import src.helpers as helpers
+import src.Helpers as Helpers
 
 
 class ListService:
@@ -8,11 +8,11 @@ class ListService:
         self.databaseRepo = DataBase()
 
     def saveList(self, name, length, minList, minName, items):
-        success, error = helpers.isCategoryNameValid(name, length, minList, minName)
+        success, error = Helpers.isCategoryNameValid(name, length, minList, minName)
         if not success:
             return False, error
 
-        success, error = helpers.isItemListValid(items)
+        success, error = Helpers.isItemListValid(items)
         if not success:
             return False, error
 
@@ -26,7 +26,7 @@ class ListService:
 
     def viewListByCategoryId(self, categoryId):
         items = self.databaseRepo.getListByCategoryId(categoryId)
-        success, error = helpers.isListFound(items)
+        success, error = Helpers.isListFound(items)
         if not success:
             return False, error
 
@@ -38,7 +38,7 @@ class ListService:
         return True, data
 
     def addItemToExistingList(self, newItem, categoryId):
-        success, error = helpers.isItemValid(newItem)
+        success, error = Helpers.isItemValid(newItem)
         if not success:
             return False, error
 
