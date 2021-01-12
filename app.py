@@ -1,7 +1,7 @@
 import os
 
 from flask import Flask, flash, render_template, request, redirect
-from flask_session import Session
+#from flask_session import Session
 from src.Db import DataBase
 from src.ListService import ListService
 from src.TaskService import TaskService
