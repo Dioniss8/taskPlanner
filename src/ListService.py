@@ -7,8 +7,10 @@ class ListService:
     def __init__(self):
         self.databaseRepo = DataBase()
 
-    def saveList(self, name, length, minList, minName, items):
-        success, error = Helpers.isCategoryNameValid(name, length, minList, minName)
+    def saveList(self, name, length, items):
+        success, error = Helpers.isCategoryNameValid(name, length,
+                                                     self.databaseRepo.DEFAULT_MIN_LIST_LENGTH,
+                                                     self.databaseRepo.DEFAULT_MIN_STRING_LENGTH)
         if not success:
             return False, error
 
@@ -45,6 +47,10 @@ class ListService:
         self.databaseRepo.saveItem(newItem, categoryId)
 
         return True, error
+
+    def getAllCategories(self):
+
+        return self.databaseRepo.getAllCategories()
 
     def deleteListByCategoryId(self, categoryId):
         self.databaseRepo.deleteListByCategoryId(categoryId)

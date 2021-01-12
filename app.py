@@ -1,7 +1,6 @@
 from flask import Flask, flash, render_template, request, redirect
 from flask_session import Session
 from tempfile import mkdtemp
-from src.Db import DataBase
 from src.ListService import ListService
 from src.TaskService import TaskService
 
@@ -21,7 +20,6 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-dataBaseObj = DataBase()
 ListService = ListService()
 TaskService = TaskService()
 
@@ -90,7 +88,7 @@ def edit():
 def lists():
 
     if request.method == "GET":
-        data = dataBaseObj.getAllCategories()
+        data = ListService.getAllCategories()
         return render_template('lists/index.html',
                                lists=data)
     else:
@@ -99,10 +97,7 @@ def lists():
         items = []
         for i in range(length - 1):
             items.append(request.form.get(str(i)))
-        success, error = ListService.saveList(name, length,
-                                              dataBaseObj.DEFAULT_MIN_LIST_LENGTH,
-                                              dataBaseObj.DEFAULT_MIN_STRING_LENGTH,
-                                              items)
+        success, error = ListService.saveList(name, length, items)
         if not success:
             flash(error)
 
