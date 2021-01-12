@@ -1,7 +1,6 @@
-import os
-
 from flask import Flask, flash, render_template, request, redirect
-#from flask_session import Session
+from flask_session import Session
+from tempfile import mkdtemp
 from src.Db import DataBase
 from src.ListService import ListService
 from src.TaskService import TaskService
@@ -9,7 +8,11 @@ from src.TaskService import TaskService
 app = Flask(__name__)
 
 app.debug = True
+
+# This was needed for flashing messages from documentation
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+
+# Ensure templates are auto-reloaded
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 
 # Configure session to use filesystem (instead of signed cookies)
