@@ -1,11 +1,22 @@
+import os
+
 from flask import Flask, flash, render_template, request, redirect
+from flask_session import Session
 from src.Db import DataBase
 from src.ListService import ListService
 from src.TaskService import TaskService
 
 app = Flask(__name__)
+
 app.debug = True
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+app.config["TEMPLATES_AUTO_RELOAD"] = True
+
+# Configure session to use filesystem (instead of signed cookies)
+app.config["SESSION_FILE_DIR"] = mkdtemp()
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app)
 
 dataBaseObj = DataBase()
 ListService = ListService()
@@ -16,6 +27,21 @@ TaskService = TaskService()
 def hello_world():
     data = TaskService.getAllTasks()
     return render_template('tasks/index.html', data=data)
+
+
+@app.route('/login', methods=["GET", "POST"])
+def login():
+
+    if request.method == "GET":
+        return render_template('login.html')
+
+
+@app.route('/register', methods=["GET", "POST"])
+def register():
+
+    if request.method == "GET":
+
+        return render_template('register.html')
 
 
 @app.route('/add', methods=["GET", "POST"])
@@ -101,6 +127,7 @@ def deleteList():
     if request.method == "GET":
         categoryId = request.args.get("id")
         ListService.deleteListByCategoryId(categoryId)
+
         return redirect('/lists')
 
 
