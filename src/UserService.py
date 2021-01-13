@@ -8,24 +8,27 @@ class UserService:
         self.databaseRepo = DataBase()
 
     def registerNewUser(self, username, password, passwordRepeat):
-        error = None
+        value = None
         if not username:
-            error = "you must provide username"
-            return False, error
+            value = "you must provide username"
+            return False, value
         if not password or not passwordRepeat:
-            error = "you must provide password"
-            return False, error
+            value = "you must provide password"
+            return False, value
         if password != passwordRepeat:
-            error = "passwords dont match"
-            return False, error
+            value = "passwords dont match"
+            return False, value
         users = self.databaseRepo.getUserByUsername(username)
         if len(users) > 0:
-            error = "think of another username"
-            return False, error
+            value = "think of another username"
+            return False, value
         hashedPassword = generate_password_hash(password)
         self.databaseRepo.saveNewUser(username, hashedPassword)
 
-        return True, error
+        userItem = self.databaseRepo.getUserByUsername(username)[0]
+        value = userItem["id"]
+
+        return True, value
 
     def checkLoginCredentials(self, username, password):
         if not username:
@@ -38,10 +41,10 @@ class UserService:
         if len(userCredentials) < 1:
             value = "username not found"
             return False, value
-        if not check_password_hash(userCredentials["hashed_pass"], password):
+        if not check_password_hash(userCredentials[0]["hashed_pass"], password):
             value = "incorrect"
             return False, value
-        value = userCredentials["id"]
+        value = userCredentials[0]["id"]
 
         return True, value
 

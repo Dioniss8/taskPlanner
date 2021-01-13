@@ -4,6 +4,7 @@ from tempfile import mkdtemp
 from src.ListService import ListService
 from src.TaskService import TaskService
 from src.UserService import UserService
+from src.Helpers import login_required
 
 app = Flask(__name__)
 
@@ -25,20 +26,43 @@ ListService = ListService()
 TaskService = TaskService()
 UserService = UserService()
 
+
 @app.route('/')
+@login_required
 def hello_world():
     data = TaskService.getAllTasks()
     return render_template('tasks/index.html', data=data)
 
 
+@app.route('/logout', methods=["GET"])
+@login_required
+def logout():
+    if request.method == "GET":
+
+        session.clear()
+
+        return redirect('/')
+
+
 @app.route('/login', methods=["GET", "POST"])
 def login():
+    session.clear()
 
     if request.method == "GET":
         return render_template('login.html')
 
     else:
-        """TODO"""
+        success, value = UserService.checkLoginCredentials(
+            request.form.get("username"),
+            request.form.get("password"))
+
+        if not success:
+            flash(value)
+            return redirect("/login")
+
+        session["user_id"] = value
+
+        return redirect("/")
 
 
 @app.route('/register', methods=["GET", "POST"])
@@ -48,19 +72,22 @@ def register():
         return render_template('register.html')
 
     else:
-        success, error = UserService.registerNewUser(
+        success, value = UserService.registerNewUser(
             request.form.get("username"),
             request.form.get("password0"),
             request.form.get("password1")
         )
         if not success:
-            flash(error)
+            flash(value)
             return render_template('register.html')
+
+        session["user_id"] = value
 
         return redirect('/')
 
 
 @app.route('/add', methods=["GET", "POST"])
+@login_required
 def add_task():
     if request.method == "GET":
 
@@ -73,6 +100,7 @@ def add_task():
 
 
 @app.route('/delete', methods=["GET"])
+@login_required
 def delete():
     if request.method == "GET":
         taskId = int(request.args.get("id"))
@@ -82,6 +110,7 @@ def delete():
 
 
 @app.route('/edit', methods=["GET", "POST"])
+@login_required
 def edit():
 
     if request.method == "GET":
@@ -100,6 +129,7 @@ def edit():
 
 
 @app.route('/lists', methods=["GET", "POST"])
+@login_required
 def lists():
 
     if request.method == "GET":
@@ -120,6 +150,7 @@ def lists():
 
 
 @app.route('/lists/view', methods=["GET", "POST"])
+@login_required
 def viewList():
 
     if request.method == "GET":
@@ -135,6 +166,7 @@ def viewList():
 
 
 @app.route('/lists/delete', methods=["GET"])
+@login_required
 def deleteList():
 
     if request.method == "GET":
@@ -145,6 +177,7 @@ def deleteList():
 
 
 @app.route('/lists/view/add', methods=["POST"])
+@login_required
 def addItemToList():
 
     if request.method == "POST":
@@ -158,6 +191,7 @@ def addItemToList():
 
 
 @app.route('/lists/view/delete', methods=["GET"])
+@login_required
 def deleteItemInView():
 
     if request.method == "GET":

@@ -1,3 +1,7 @@
 .right {
     float:right;
 }
+
+.east{
+    margin-right: 0;
+}
