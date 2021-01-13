@@ -22,11 +22,26 @@ class UserService:
         if len(users) > 0:
             error = "think of another username"
             return False, error
-
         hashedPassword = generate_password_hash(password)
         self.databaseRepo.saveNewUser(username, hashedPassword)
 
         return True, error
 
+    def checkLoginCredentials(self, username, password):
+        if not username:
+            value = "username missing"
+            return False, value
+        if not password:
+            value = "password missing"
+            return False, value
+        userCredentials = self.databaseRepo.getUserByUsername(username)
+        if len(userCredentials) < 1:
+            value = "username not found"
+            return False, value
+        if not check_password_hash(userCredentials["hashed_pass"], password):
+            value = "incorrect"
+            return False, value
+        value = userCredentials["id"]
 
+        return True, value
 

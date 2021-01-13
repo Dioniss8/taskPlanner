@@ -1,4 +1,4 @@
-from flask import Flask, flash, render_template, request, redirect
+from flask import Flask, flash, render_template, request, redirect, session
 from flask_session import Session
 from tempfile import mkdtemp
 from src.ListService import ListService
