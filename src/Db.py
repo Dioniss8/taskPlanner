@@ -127,3 +127,15 @@ class DataBase:
             self.deleteItemById(itemId)
 
         self.deleteCategoryById(categoryId)
+
+    def saveNewUser(self, username, hashedPassword):
+        self.db.execute("""INSERT INTO users (username, hashed_pass)
+                            VALUES (:username, :hashedPassword)""",
+                        username=username, hashedPassword=hashedPassword)
+
+    def getUserByUsername(self, username):
+        users = self.db.execute("""SELECT *
+                                    FROM users
+                                    WHERE username=:username""",
+                                username=username)
+        return users

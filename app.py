@@ -3,6 +3,7 @@ from flask_session import Session
 from tempfile import mkdtemp
 from src.ListService import ListService
 from src.TaskService import TaskService
+from src.UserService import UserService
 
 app = Flask(__name__)
 
@@ -22,7 +23,7 @@ Session(app)
 
 ListService = ListService()
 TaskService = TaskService()
-
+UserService = UserService()
 
 @app.route('/')
 def hello_world():
@@ -36,13 +37,27 @@ def login():
     if request.method == "GET":
         return render_template('login.html')
 
+    else:
+        """TODO"""
+
 
 @app.route('/register', methods=["GET", "POST"])
 def register():
 
     if request.method == "GET":
-
         return render_template('register.html')
+
+    else:
+        success, error = UserService.registerNewUser(
+            request.form.get("username"),
+            request.form.get("password0"),
+            request.form.get("password1")
+        )
+        if not success:
+            flash(error)
+            return render_template('register.html')
+
+        return redirect('/')
 
 
 @app.route('/add', methods=["GET", "POST"])
