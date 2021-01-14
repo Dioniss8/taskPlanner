@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    NBA player stats
+{% endblock %}
+
+{% block main %}
+    <form action="/nba-search" method="post">
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="player_key" placeholder="Enter player lastname" type="text">
+        </div> 
+
+        <button class="btn btn-primary" type="submit">Search</button>
+    </form>
+{% endblock %}

@@ -1,3 +1,11 @@
+LOGS
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY NOT NULL,
+    type TEXT NOT NULL,
+    message TEXT NOT NULL,
+    created_at TIMESTAMP
+);
+------------------------------------------------------------
 USERS
 
 CREATE TABLE users (

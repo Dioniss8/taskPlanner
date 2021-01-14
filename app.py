@@ -4,6 +4,7 @@ from tempfile import mkdtemp
 from src.services.ListService import ListService
 from src.services.TaskService import TaskService
 from src.services.UserService import UserService
+from src.services.LoggingService import LoggingService
 from src.helpers.Helpers import login_required
 
 app = Flask(__name__)
@@ -25,6 +26,7 @@ Session(app)
 ListService = ListService()
 TaskService = TaskService()
 UserService = UserService()
+LoggingService = LoggingService()
 
 
 @app.route('/')
@@ -39,7 +41,11 @@ def hello_world():
 @login_required
 def logout():
     if request.method == "GET":
+        userId = session["user_id"]
+        LoggingService.saveLogoutEvent(userId)
+
         session.clear()
+
         return redirect('/')
 
 
@@ -60,6 +66,8 @@ def login():
             return redirect("/login")
 
         session["user_id"] = value
+
+        LoggingService.saveLoginEvent(value)
 
         return redirect("/")
 
@@ -199,6 +207,12 @@ def deleteItemInView():
         categoryId = request.args.get("cat_id")
         ListService.deleteItemAndAdjustCategory(itemId, categoryId)
         return redirect('/lists')
+
+
+@app.route('/nba')
+def index():
+    return render_template('nba/index.html')
+    '''@login_required'''
 
 
 if __name__ == '__main__':
