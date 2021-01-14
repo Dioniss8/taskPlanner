@@ -1,5 +1,5 @@
 from src.repos.ListRepo import ListRepo
-import src.Helpers as Helpers
+import src.helpers.Helpers as Helpers
 
 
 class ListService:

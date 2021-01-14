@@ -1,10 +1,10 @@
 from flask import Flask, flash, render_template, request, redirect, session
 from flask_session import Session
 from tempfile import mkdtemp
-from src.ListService import ListService
-from src.TaskService import TaskService
-from src.UserService import UserService
-from src.Helpers import login_required
+from src.services.ListService import ListService
+from src.services.TaskService import TaskService
+from src.services.UserService import UserService
+from src.helpers.Helpers import login_required
 
 app = Flask(__name__)
 
