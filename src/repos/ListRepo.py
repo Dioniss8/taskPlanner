@@ -51,7 +51,6 @@ class ListRepo(BaseRepo):
                         newCount=currentCount[0]["len"] + diff,
                         categoryId=categoryId)
 
-    '''items Operations'''
     def saveItem(self, itemName, cat_id, creation=False):
         if not creation:
             self.addLengthCategory(cat_id)

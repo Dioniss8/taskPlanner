@@ -39,9 +39,7 @@ def hello_world():
 @login_required
 def logout():
     if request.method == "GET":
-
         session.clear()
-
         return redirect('/')
 
 
@@ -76,8 +74,8 @@ def register():
         success, value = UserService.registerNewUser(
             request.form.get("username"),
             request.form.get("password0"),
-            request.form.get("password1")
-        )
+            request.form.get("password1"))
+
         if not success:
             flash(value)
             return render_template('register.html')
