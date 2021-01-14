@@ -1,8 +1,8 @@
-from src.Db import UserRepo
+from src.repos.ListRepo import ListRepo
 from functools import wraps
 from flask import redirect, session
 
-databaseObj = UserRepo()
+listRepo = ListRepo()
 
 
 def login_required(f):
@@ -38,7 +38,7 @@ def isCategoryNameValid(name, length, minList, minName):
         error = "List of nothing?!?"
         return False, error
 
-    if databaseObj.hasActiveCategoryByName(name):
+    if listRepo.hasActiveCategoryByName(name):
         error = "you have such list already"
         return False, error
 
@@ -56,7 +56,7 @@ def isItemListValid(items):
 
 def isListFound(items):
     error = None
-    if not hasMinElements(len(items), databaseObj.DEFAULT_MIN_ITEM_LENGTH):
+    if not hasMinElements(len(items), listRepo.DEFAULT_MIN_ITEM_LENGTH):
         error = "list not found"
         return False, error
 
@@ -65,7 +65,7 @@ def isListFound(items):
 
 def isItemValid(item):
     error = None
-    if not hasMinElements(len(item), databaseObj.DEFAULT_MIN_STRING_LENGTH):
+    if not hasMinElements(len(item), listRepo.DEFAULT_MIN_STRING_LENGTH):
         error = "can't be empty"
         return False, error
 

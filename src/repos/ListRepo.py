@@ -1,20 +1,20 @@
-from cs50 import SQL
+from src.repos.BaseRepo import BaseRepo
 
-
-DEFAULT_DONE = 0
 DEFAULT_DELETED = 0
+DEFAULT_DONE = 0
+DEFAULT_MIN_LIST_LENGTH = 2
+DEFAULT_MIN_ITEM_LENGTH = 1
+DEFAULT_MIN_STRING_LENGTH = 1
 
 
-class UserRepo:
-
-    DEFAULT_MIN_LIST_LENGTH = 2
-    DEFAULT_MIN_ITEM_LENGTH = 1
-    DEFAULT_MIN_STRING_LENGTH = 1
+class ListRepo(BaseRepo):
 
     def __init__(self):
-        self.db = SQL("sqlite:///tasks.db")
+        super().__init__()
+        self.DEFAULT_MIN_LIST_LENGTH = DEFAULT_MIN_LIST_LENGTH
+        self.DEFAULT_MIN_STRING_LENGTH = DEFAULT_MIN_LIST_LENGTH
+        self.DEFAULT_MIN_ITEM_LENGTH = DEFAULT_MIN_LIST_LENGTH
 
-    '''categories Operations'''
     def addCategory(self, name, length):
         self.db.execute("""INSERT INTO categories (cat_name, len, deleted)
                             VALUES (:cat_name, :len, :deleted)""",
@@ -100,3 +100,4 @@ class UserRepo:
             self.deleteItemById(itemId)
 
         self.deleteCategoryById(categoryId)
+
