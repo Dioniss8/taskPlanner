@@ -1,18 +1,18 @@
-from src.Db import DataBase
+from src.Db import UserRepo
 
 
 class TaskService:
 
     def __init__(self):
-        self.databaseRepo = DataBase()
+        self.databaseRepo = UserRepo()
 
-    def getAllTasks(self):
-        return self.databaseRepo.getAllTasks()
+    def getAllTasks(self, user_id):
+        return self.databaseRepo.getAllTasks(user_id)
 
-    def addTaskAndReturnAll(self, task):
-        self.databaseRepo.setTask(task)
+    def addTaskAndReturnAll(self, task, user_id):
+        self.databaseRepo.setTask(task, user_id)
 
-        return self.getAllTasks()
+        return self.getAllTasks(user_id)
 
     def deleteTaskById(self, taskId):
         self.databaseRepo.deleteTask(taskId)

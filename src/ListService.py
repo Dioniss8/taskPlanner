@@ -1,11 +1,11 @@
-from src.Db import DataBase
+from src.Db import UserRepo
 import src.Helpers as Helpers
 
 
 class ListService:
 
     def __init__(self):
-        self.databaseRepo = DataBase()
+        self.databaseRepo = UserRepo()
 
     def saveList(self, name, length, items):
         success, error = Helpers.isCategoryNameValid(name, length,

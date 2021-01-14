@@ -1,14 +1,13 @@
-from src.Db import DataBase
+from src.repos.UserRepo import UserRepo
 from werkzeug.security import check_password_hash, generate_password_hash
 
 
 class UserService:
 
     def __init__(self):
-        self.databaseRepo = DataBase()
+        self.databaseRepo = UserRepo()
 
     def registerNewUser(self, username, password, passwordRepeat):
-        value = None
         if not username:
             value = "you must provide username"
             return False, value

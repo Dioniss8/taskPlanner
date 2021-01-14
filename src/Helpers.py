@@ -1,8 +1,8 @@
-from src.Db import DataBase
+from src.Db import UserRepo
 from functools import wraps
 from flask import redirect, session
 
-databaseObj = DataBase()
+databaseObj = UserRepo()
 
 
 def login_required(f):

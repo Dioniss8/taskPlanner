@@ -5,7 +5,7 @@ DEFAULT_DONE = 0
 DEFAULT_DELETED = 0
 
 
-class DataBase:
+class UserRepo:
 
     DEFAULT_MIN_LIST_LENGTH = 2
     DEFAULT_MIN_ITEM_LENGTH = 1
@@ -14,17 +14,23 @@ class DataBase:
     def __init__(self):
         self.db = SQL("sqlite:///tasks.db")
 
-    def getAllTasks(self):
-        tasks = self.db.execute("SELECT * FROM tasks WHERE deleted = 0")
+    '''tasks Operations'''
+    def getAllTasks(self, user_id):
+        tasks = self.db.execute('''SELECT * 
+                                    FROM tasks 
+                                    WHERE deleted = 0
+                                    AND user_id=:user_id''',
+                                user_id=user_id)
 
         return tasks
 
-    def setTask(self, description):
+    def setTask(self, description, user_id):
         created_at = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        self.db.execute("""INSERT INTO tasks (description, done, deleted, created_at)
-                            VALUES (:description, :done, :deleted, :created_at)""",
+        self.db.execute("""INSERT INTO tasks (description, done, deleted, created_at, user_id)
+                            VALUES (:description, :done, :deleted, :created_at, :user_id)""",
                         description=description, done=DEFAULT_DONE,
-                        deleted=DEFAULT_DELETED, created_at=created_at)
+                        deleted=DEFAULT_DELETED, created_at=created_at,
+                        user_id=user_id)
 
     def deleteTask(self, taskId):
         self.db.execute("""UPDATE tasks
@@ -43,6 +49,7 @@ class DataBase:
                             WHERE id=:taskId""",
                         text=text, taskId=taskId)
 
+    '''categories Operations'''
     def addCategory(self, name, length):
         self.db.execute("""INSERT INTO categories (cat_name, len, deleted)
                             VALUES (:cat_name, :len, :deleted)""",
@@ -79,6 +86,7 @@ class DataBase:
                         newCount=currentCount[0]["len"] + diff,
                         categoryId=categoryId)
 
+    '''items Operations'''
     def saveItem(self, itemName, cat_id, creation=False):
         if not creation:
             self.addLengthCategory(cat_id)
@@ -127,15 +135,3 @@ class DataBase:
             self.deleteItemById(itemId)
 
         self.deleteCategoryById(categoryId)
-
-    def saveNewUser(self, username, hashedPassword):
-        self.db.execute("""INSERT INTO users (username, hashed_pass)
-                            VALUES (:username, :hashedPassword)""",
-                        username=username, hashedPassword=hashedPassword)
-
-    def getUserByUsername(self, username):
-        users = self.db.execute("""SELECT *
-                                    FROM users
-                                    WHERE username=:username""",
-                                username=username)
-        return users

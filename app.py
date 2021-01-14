@@ -30,7 +30,8 @@ UserService = UserService()
 @app.route('/')
 @login_required
 def hello_world():
-    data = TaskService.getAllTasks()
+    userId = session["user_id"]
+    data = TaskService.getAllTasks(userId)
     return render_template('tasks/index.html', data=data)
 
 
@@ -93,8 +94,9 @@ def add_task():
 
         return render_template('tasks/add.html')
     else:
+        userId = session["user_id"]
         description = request.form.get("taskDescription")
-        data = TaskService.addTaskAndReturnAll(description)
+        data = TaskService.addTaskAndReturnAll(description, userId)
 
         return render_template('tasks/index.html', data=data)
 
