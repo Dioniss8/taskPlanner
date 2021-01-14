@@ -11,4 +11,17 @@ class BaseNbaService:
             'x-rapidapi-host': "api-nba-v1.p.rapidapi.com"
         }
 
+    def getPlayersByLastName(self, lastName):
+        url = "/players/lastname" + str(lastName)
+        data = self.getAndFormatResponseAsString("GET", url)
 
+        return data
+
+    def getAndFormatResponseAsString(self, requestType, url):
+
+        self.conn.request(requestType, url, headers=self.headers)
+
+        res = self.conn.getresponse()
+        data = res.read().decode("utf8")
+
+        return data
