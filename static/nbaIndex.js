@@ -8,16 +8,14 @@ function getAllUsersFromDb()
     $.ajax({
         url: "/api/" + name
     }).done(function (res) {
-        data = res.name
-        console.log("Also");
+        appendToParent(res)
     })
+}
 
-    Object.keys(data).forEach(function(key){
-        console.log("key" + key);
-        console.log("\n" + data[key]);
-    });
-    let input = document.createElement("div");
-    input.innerHTML = "Yeesh";
+function appendToParent(text)
+{
+    let input = document.createElement("p");
+    input.innerHTML = text;
     let parent = document.getElementById("target");
     parent.appendChild(input);
 }
