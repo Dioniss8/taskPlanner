@@ -5,11 +5,16 @@
 {% endblock %}
 
 {% block main %}
-    <form action="/nba-search" method="post">
-        <div class="form-group">
-            <input autocomplete="off" autofocus class="form-control" name="player_key" placeholder="Enter player lastname" type="text">
-        </div> 
+    <form>
+        <div class="form-group"">
+            <input autocomplete="off" autofocus class="form-control" name="player_key" id="player_key" placeholder="Enter player lastname" type="text">
+        </div>
 
-        <button class="btn btn-primary" type="submit">Search</button>
+        <div id="target"></div>
+
     </form>
+
+    <button class="btn btn-primary" onclick="getAllUsersFromDb();">Search</button>
+
+    <script src="static/nbaIndex.js"></script>
 {% endblock %}

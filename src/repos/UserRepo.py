@@ -6,6 +6,11 @@ class UserRepo(BaseRepo):
     def __init__(self):
         super().__init__()
 
+    def getALlUsers(self):
+        users = self.db.execute('''SELECT *
+                                    FROM users''');
+        return users
+
     def saveNewUser(self, username, hashedPassword):
         self.db.execute("""INSERT INTO users (username, hashed_pass)
                             VALUES (:username, :hashedPassword)""",

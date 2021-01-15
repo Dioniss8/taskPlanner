@@ -1,4 +1,4 @@
-from flask import Flask, flash, render_template, request, redirect, session
+from flask import Flask, flash, json, render_template, request, redirect, session
 from flask_session import Session
 from tempfile import mkdtemp
 from src.services.ListService import ListService
@@ -35,6 +35,14 @@ def hello_world():
     userId = session["user_id"]
     data = TaskService.getAllTasks(userId)
     return render_template('tasks/index.html', data=data)
+
+
+@app.route('/api/get-all-users/')
+def getAllUsers():
+    data = UserService.getAllUsers()
+    return json.jsonify({
+        'data': data
+    })
 
 
 @app.route('/logout', methods=["GET"])

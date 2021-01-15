@@ -5,7 +5,11 @@ from werkzeug.security import check_password_hash, generate_password_hash
 class UserService:
 
     def __init__(self):
-        self.databaseRepo = UserRepo()
+        self.userRepo = UserRepo()
+
+    def getAllUsers(self):
+        data = self.userRepo.getALlUsers()
+        return data
 
     def registerNewUser(self, username, password, passwordRepeat):
         if not username:
@@ -17,14 +21,14 @@ class UserService:
         if password != passwordRepeat:
             value = "passwords dont match"
             return False, value
-        users = self.databaseRepo.getUserByUsername(username)
+        users = self.userRepo.getUserByUsername(username)
         if len(users) > 0:
             value = "think of another username"
             return False, value
         hashedPassword = generate_password_hash(password)
-        self.databaseRepo.saveNewUser(username, hashedPassword)
+        self.userRepo.saveNewUser(username, hashedPassword)
 
-        userItem = self.databaseRepo.getUserByUsername(username)[0]
+        userItem = self.userRepo.getUserByUsername(username)[0]
         value = userItem["id"]
 
         return True, value
@@ -36,7 +40,7 @@ class UserService:
         if not password:
             value = "password missing"
             return False, value
-        userCredentials = self.databaseRepo.getUserByUsername(username)
+        userCredentials = self.userRepo.getUserByUsername(username)
         if len(userCredentials) < 1:
             value = "username not found"
             return False, value
