@@ -38,7 +38,10 @@ def hello_world():
 
 
 @app.route('/api/get-all-users/')
+@login_required
 def getAllUsers():
+    user_id = session["user_id"]
+    LoggingService.saveGetAllUsersEvent(user_id)
     data = UserService.getAllUsers()
     return json.jsonify({
         'data': data

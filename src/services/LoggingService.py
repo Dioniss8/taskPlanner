@@ -7,6 +7,14 @@ class LoggingService:
     def __init__(self):
         self.logsRepo = LogsRepo()
 
+    def saveGetAllUsersEvent(self, user_id):
+        success, error = self.saveEventWithMessage("get_all_players_event", user_id)
+        if not success:
+            flash("GetAllUsers failed")
+            return False, error
+
+        return True, error
+
     def saveLoginEvent(self, userId):
         success, error = self.saveEventWithMessage("login_event", userId)
         if not success:
