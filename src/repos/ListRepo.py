@@ -12,7 +12,7 @@ class ListRepo(BaseRepo):
     def __init__(self):
         super().__init__()
         self.DEFAULT_MIN_LIST_LENGTH = DEFAULT_MIN_LIST_LENGTH
-        self.DEFAULT_MIN_STRING_LENGTH = DEFAULT_MIN_LIST_LENGTH
+        self.DEFAULT_MIN_STRING_LENGTH = DEFAULT_MIN_STRING_LENGTH
         self.DEFAULT_MIN_ITEM_LENGTH = DEFAULT_MIN_ITEM_LENGTH
 
     def addCategory(self, name, length):

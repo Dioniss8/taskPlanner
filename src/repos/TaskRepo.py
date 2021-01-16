@@ -11,14 +11,12 @@ class TaskRepo(BaseRepo):
         super().__init__()
 
     def getAllTasks(self, user_id):
-        tasks = self.db.execute('''SELECT * 
+        return self.db.execute('''SELECT * 
                                     FROM tasks 
                                     WHERE deleted = 0
                                     AND user_id=:user_id
                                     ORDER BY created_at DESC''',
-                                user_id=user_id)
-
-        return tasks
+                               user_id=user_id)
 
     def setTask(self, description, user_id):
         created_at = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -34,10 +32,9 @@ class TaskRepo(BaseRepo):
                             WHERE id=:taskId""", taskId=taskId)
 
     def getTaskById(self, taskId):
-        tasks = self.db.execute("""SELECT *
+        return self.db.execute("""SELECT *
                             FROM tasks
                             WHERE id=:taskId""", taskId=taskId)
-        return tasks
 
     def saveDescription(self, text, taskId):
         self.db.execute("""UPDATE tasks
