@@ -37,7 +37,7 @@ class LoggingService:
         if not userId:
             error = "Missing user id"
             return False, error
-        logMessage = "User_" + str(userId) + eventMessage
+        logMessage = "User" + str(userId) + "," + eventMessage
         self.logsRepo.saveLogEvent(eventType, logMessage)
 
         return True, error
