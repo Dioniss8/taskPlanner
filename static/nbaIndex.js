@@ -24,11 +24,19 @@ function getStatisticsBySymbolName()
         type: "POST",
         data: {'symbol': symbol},
     }).done(function (res) {
-        appendChildElementToTarget(res.data);
-        console.log(res.success);
-        console.log(res.data);
-        console.log(res.usage);
+            if(res.success > 0){
+                appendChildElementToTarget(res.data);
+                changeElementsValue(res.usage);
+            }else {
+                changeElementsValue("Missing symbol");
+            }
     });
+}
+
+function changeElementsValue(innerValue)
+{
+    let element = document.getElementById("usage")
+    element.innerHTML = innerValue
 }
 
 

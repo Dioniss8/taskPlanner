@@ -46,6 +46,11 @@ def getStatistics():
         user_id = session["user_id"]
         LoggingService.saveGetStatisticsEvent(user_id)
         symbol = request.form.get("symbol")
+        if len(symbol) < 1:
+            return json.jsonify({
+                'success': False,
+            })
+
         success, data = BaseYahooFinanceService.getStatisticsBySymbolName(symbol)
         usageYahooTotal = len(LoggingService.getAllYahooEvents())
 
@@ -244,6 +249,7 @@ def deleteItemInView():
 @app.route('/apis')
 @login_required
 def index():
+
     return render_template('apis/index.html')
 
 
