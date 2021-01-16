@@ -14,7 +14,8 @@ class TaskRepo(BaseRepo):
         tasks = self.db.execute('''SELECT * 
                                     FROM tasks 
                                     WHERE deleted = 0
-                                    AND user_id=:user_id''',
+                                    AND user_id=:user_id
+                                    ORDER BY created_at DESC''',
                                 user_id=user_id)
 
         return tasks

@@ -5,6 +5,7 @@ from src.services.ListService import ListService
 from src.services.TaskService import TaskService
 from src.services.UserService import UserService
 from src.services.LoggingService import LoggingService
+from src.api.BaseYahooFinanceService import BaseYahooFinanceService
 from src.helpers.Helpers import login_required
 
 app = Flask(__name__)
@@ -23,6 +24,7 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
+BaseYahooFinanceService = BaseYahooFinanceService()
 ListService = ListService()
 TaskService = TaskService()
 UserService = UserService()
@@ -35,6 +37,20 @@ def hello_world():
     userId = session["user_id"]
     data = TaskService.getAllTasks(userId)
     return render_template('tasks/index.html', data=data)
+
+
+@app.route('/api/get-statistics/', methods=["POST"])
+@login_required
+def getStatistics():
+    if request.method == "POST":
+        symbol = request.form.get("symbol")
+        data = BaseYahooFinanceService.getStatisticsBySymbolName(symbol)
+        user_id = session["user_id"]
+        LoggingService.saveGetStatisticsEvent(user_id)
+
+        return json.jsonify(({
+            'data': data
+        }))
 
 
 @app.route('/api/get-all-users/')
@@ -220,10 +236,10 @@ def deleteItemInView():
         return redirect('/lists')
 
 
-@app.route('/nba')
+@app.route('/apis')
+@login_required
 def index():
-    return render_template('nba/index.html')
-    '''@login_required'''
+    return render_template('apis/index.html')
 
 
 if __name__ == '__main__':

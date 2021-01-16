@@ -1,11 +1,8 @@
-
-
 function getAllUsersFromDb()
 {
     let name = "get-all-users";
-    console.log("SMTh");
     $.ajax({
-        url: "/api/" + name
+        url: "/api/" + name,
     }).done(function (res) {
         for (let i = 0; i<res.data.length; i++) {
             let text = res.data[i].username + " " + res.data[i].id + "\n";
@@ -15,6 +12,22 @@ function getAllUsersFromDb()
         console.log(res.data.length);
     })
 }
+
+function getStatisticsBySymbolName()
+{
+    let name = "get-statistics/";
+    let inputNode = document.getElementById("player_key");
+    let symbol = inputNode.value;
+    $.ajax({
+        url: "/api/" + name,
+        dataType: "json",
+        type: "POST",
+        data: {'symbol': symbol},
+    }).done(function (res) {
+        appendChildElementToTarget(res.data);
+    });
+}
+
 
 function appendChildElementToTarget(text)
 {
