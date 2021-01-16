@@ -7,8 +7,8 @@ class ListService:
     def __init__(self):
         self.listRepo = ListRepo()
 
-    def saveList(self, name, length, items):
-        success, error = Helpers.isCategoryNameValid(name, length,
+    def saveList(self, name, length, items, userId):
+        success, error = Helpers.isCategoryNameValid(name, userId, length,
                                                      self.listRepo.DEFAULT_MIN_LIST_LENGTH,
                                                      self.listRepo.DEFAULT_MIN_STRING_LENGTH)
         if not success:
@@ -18,8 +18,8 @@ class ListService:
         if not success:
             return False, error
 
-        self.listRepo.addCategory(name, length - 1)
-        category = self.listRepo.getCategoryByName(name)[0]
+        self.listRepo.addCategory(name, length - 1, userId)
+        category = self.listRepo.getCategoryByName(name, userId)[0]
         categoryId = category["id"]
         for item in items:
             self.listRepo.saveItem(item, categoryId, True)
@@ -48,9 +48,9 @@ class ListService:
 
         return True, error
 
-    def getAllCategories(self):
+    def getAllCategories(self, userId):
 
-        return self.listRepo.getAllCategories()
+        return self.listRepo.getAllCategories(userId)
 
     def deleteListByCategoryId(self, categoryId):
         self.listRepo.deleteListByCategoryId(categoryId)

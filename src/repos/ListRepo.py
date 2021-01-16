@@ -15,25 +15,30 @@ class ListRepo(BaseRepo):
         self.DEFAULT_MIN_STRING_LENGTH = DEFAULT_MIN_STRING_LENGTH
         self.DEFAULT_MIN_ITEM_LENGTH = DEFAULT_MIN_ITEM_LENGTH
 
-    def addCategory(self, name, length):
-        self.db.execute("""INSERT INTO categories (cat_name, len, deleted)
-                            VALUES (:cat_name, :len, :deleted)""",
-                        cat_name=name, len=length, deleted=DEFAULT_DELETED)
+    def addCategory(self, name, length, userId):
+        self.db.execute("""INSERT INTO categories (cat_name, len, deleted, user_id)
+                            VALUES (:cat_name, :len, :deleted, :user_id)""",
+                        cat_name=name, len=length, deleted=DEFAULT_DELETED,
+                        user_id=userId)
 
-    def getCategoryByName(self, catName):
+    def getCategoryByName(self, catName, userId):
         category = self.db.execute("""SELECT *
                                         FROM categories
                                         WHERE cat_name=:cat_name
-                                        AND deleted = 0""",
-                                   cat_name=catName)
+                                        AND deleted = 0
+                                        AND user_id=:user_id""",
+                                   cat_name=catName,
+                                   user_id=userId)
         return category
 
-    def hasActiveCategoryByName(self, catName):
+    def hasActiveCategoryByName(self, catName, userId):
         categories = self.db.execute("""SELECT *
                                         FROM categories
                                         WHERE cat_name=:catName
-                                        AND deleted = 0""",
-                                     catName=catName)
+                                        AND deleted = 0
+                                        AND user_id=:user_id""",
+                                     catName=catName,
+                                     user_id=userId)
         return len(categories) > 0
 
     def addLengthCategory(self, categoryId, opp=False):
@@ -58,10 +63,12 @@ class ListRepo(BaseRepo):
                             VALUES (:item_name, :cat_id, :deleted)""",
                         item_name=itemName, cat_id=cat_id, deleted=DEFAULT_DELETED)
 
-    def getAllCategories(self):
+    def getAllCategories(self, user_id):
         lists = self.db.execute("""SELECT *
                                     FROM categories
-                                    WHERE deleted = 0""")
+                                    WHERE deleted = 0
+                                    AND user_id=:user_id""",
+                                user_id=user_id)
         return lists
 
     def getItemsByCategoryId(self, categoryId):

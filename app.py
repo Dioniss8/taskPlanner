@@ -171,16 +171,18 @@ def edit():
 def lists():
 
     if request.method == "GET":
-        data = ListService.getAllCategories()
+        userId = session["user_id"]
+        data = ListService.getAllCategories(userId)
         return render_template('lists/index.html',
                                lists=data)
     else:
+        userId = session["user_id"]
         length = len(request.form)
         name = request.form.get("category")
         items = []
         for i in range(length - 1):
             items.append(request.form.get(str(i)))
-        success, error = ListService.saveList(name, length, items)
+        success, error = ListService.saveList(name, length, items, userId)
         if not success:
             flash(error)
 

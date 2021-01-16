@@ -29,7 +29,7 @@ def hasMinElements(length, minimal):
     return length >= minimal
 
 
-def isCategoryNameValid(name, length, minList, minName):
+def isCategoryNameValid(name, userId, length, minList, minName):
     error = None
     if not hasMinElements(length, minList):
         error = "we need at least 1 item"
@@ -38,7 +38,7 @@ def isCategoryNameValid(name, length, minList, minName):
         error = "List of nothing?!?"
         return False, error
 
-    if listRepo.hasActiveCategoryByName(name):
+    if listRepo.hasActiveCategoryByName(name, userId):
         error = "you have such list already"
         return False, error
 
