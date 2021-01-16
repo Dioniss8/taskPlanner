@@ -15,14 +15,19 @@ class BaseYahooFinanceService:
     def getStatisticsBySymbolName(self, symbolName):
         url = "/stock/v2/get-statistics?symbol=" + symbolName + "&region=" + DEFAULT_REGION
 
-        data = self.getAndFormatResponseAsString("GET", url)
-        return data
+        success, data = self.getAndFormatResponseAsString("GET", url)
+        if not success:
+            return False, data
+
+        return True, data
 
     def getAndFormatResponseAsString(self, requestType, url):
-
         self.conn.request(requestType, url, headers=self.headers)
-
         res = self.conn.getresponse()
-        data = res.read().decode("utf8")
+        value = res.read().decode("utf8")
 
-        return data
+        if len(value) < 1:
+            value = "empty response"
+            return False, value
+
+        return True, value

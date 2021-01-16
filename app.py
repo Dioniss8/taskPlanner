@@ -43,13 +43,16 @@ def hello_world():
 @login_required
 def getStatistics():
     if request.method == "POST":
-        symbol = request.form.get("symbol")
-        data = BaseYahooFinanceService.getStatisticsBySymbolName(symbol)
         user_id = session["user_id"]
         LoggingService.saveGetStatisticsEvent(user_id)
+        symbol = request.form.get("symbol")
+        success, data = BaseYahooFinanceService.getStatisticsBySymbolName(symbol)
+        usageYahooTotal = len(LoggingService.getAllYahooEvents())
 
         return json.jsonify(({
-            'data': data
+            'success': int(success),
+            'data': data,
+            'usage': usageYahooTotal,
         }))
 
 

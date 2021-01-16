@@ -25,6 +25,9 @@ function getStatisticsBySymbolName()
         data: {'symbol': symbol},
     }).done(function (res) {
         appendChildElementToTarget(res.data);
+        console.log(res.success);
+        console.log(res.data);
+        console.log(res.usage);
     });
 }
 

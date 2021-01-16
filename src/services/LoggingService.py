@@ -1,8 +1,9 @@
 from src.repos.LogsRepo import LogsRepo
 from flask import flash, redirect
 
-EVENT_GET_STATISTICS = "get_statistics_event"
+EVENT_YAHOO = "get_yahoo_event"
 EVENT_GET_ALL_USERS = "get_all_players_event"
+EVENT_GET_STATISTICS = "get_statistics_event"
 
 
 class LoggingService:
@@ -11,7 +12,7 @@ class LoggingService:
         self.logsRepo = LogsRepo()
 
     def saveGetStatisticsEvent(self, user_id):
-        success, error = self.saveEventWithMessage(EVENT_GET_STATISTICS, user_id)
+        success, error = self.saveEventWithMessage(EVENT_YAHOO, user_id, EVENT_GET_STATISTICS)
         if not success:
             flash("GetStatistics event failed")
             return False, error
@@ -52,3 +53,6 @@ class LoggingService:
         self.logsRepo.saveLogEvent(eventType, logMessage)
 
         return True, error
+
+    def getAllYahooEvents(self):
+        return self.logsRepo.getALlYahooFinanceEvents(EVENT_YAHOO)
