@@ -4,10 +4,11 @@ function getAllUsersFromDb()
     $.ajax({
         url: "/api/" + name,
     }).done(function (res) {
+        let element = document.getElementById("target");
+        element.innerHTML = "";
         for (let i = 0; i<res.data.length; i++) {
             let text = res.data[i].username + " " + res.data[i].id + "\n";
-            console.log(res.data[i]);
-            appendChildElementToTarget(text);
+            element.innerHTML = element.innerHTML + text;
         }
         console.log(res.data.length);
     })
@@ -25,25 +26,16 @@ function getStatisticsBySymbolName()
         data: {'symbol': symbol},
     }).done(function (res) {
             if(res.success > 0){
-                appendChildElementToTarget(res.data);
-                changeElementsValue(res.usage);
+                changeElementsValue(res.data, "target");
+                changeElementsValue(res.usage, "usage");
             }else {
                 changeElementsValue("Missing symbol");
             }
     });
 }
 
-function changeElementsValue(innerValue)
+function changeElementsValue(innerValue, elementId)
 {
-    let element = document.getElementById("usage")
+    let element = document.getElementById(elementId)
     element.innerHTML = innerValue
-}
-
-
-function appendChildElementToTarget(text)
-{
-    let base = document.createElement("div");
-    base.innerHTML = text;
-    let parent = document.getElementById("target");
-    parent.appendChild(base);
 }

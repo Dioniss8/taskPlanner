@@ -4,6 +4,7 @@ from flask import flash, redirect
 EVENT_YAHOO = "get_yahoo_event"
 EVENT_GET_ALL_USERS = "get_all_players_event"
 EVENT_GET_STATISTICS = "get_statistics_event"
+EVENT_REGISTER = "register_event"
 
 
 class LoggingService:
@@ -23,6 +24,15 @@ class LoggingService:
         success, error = self.saveEventWithMessage(EVENT_GET_ALL_USERS, user_id)
         if not success:
             flash("GetAllUsers failed")
+            return False, error
+
+        return True, error
+
+    def saveRegisterEvent(self, userId):
+        eventMessage = "userHasRegistered"
+        success, error = self.saveEventWithMessage(EVENT_REGISTER, userId, eventMessage)
+        if not success:
+            flash("Register event failed")
             return False, error
 
         return True, error
@@ -49,7 +59,9 @@ class LoggingService:
         if not userId:
             error = "Missing user id"
             return False, error
-        logMessage = "User" + str(userId) + "," + eventMessage
+        logMessage = "user_id:" + str(userId)
+        if len(eventMessage) > 0:
+            logMessage += ",message:" + str(eventMessage)
         self.logsRepo.saveLogEvent(eventType, logMessage)
 
         return True, error

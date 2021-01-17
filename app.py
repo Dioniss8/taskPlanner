@@ -124,6 +124,7 @@ def register():
             return render_template('register.html')
 
         session["user_id"] = value
+        LoggingService.saveRegisterEvent(value)
 
         return redirect('/')
 
@@ -249,8 +250,8 @@ def deleteItemInView():
 @app.route('/apis')
 @login_required
 def index():
-
-    return render_template('apis/index.html')
+    usageYahoo = len(LoggingService.getAllYahooEvents())
+    return render_template('apis/index.html', usageYahoo=usageYahoo)
 
 
 if __name__ == '__main__':

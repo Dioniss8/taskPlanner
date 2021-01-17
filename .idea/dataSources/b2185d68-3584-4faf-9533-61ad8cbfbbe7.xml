@@ -174,7 +174,11 @@
       <DataType>TEXT|0s</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="46" parent="11">
+    <column id="46" parent="11" name="version">
+      <Position>4</Position>
+      <DataType>INTEGER|0s</DataType>
+    </column>
+    <key id="47" parent="11">
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
