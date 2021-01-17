@@ -3,7 +3,7 @@ from flask import session
 from src.services.LoggingService import LoggingService
 
 
-class BaseNbaService:
+class NbaService:
 
     def __init__(self):
         self.loggingService = LoggingService()
