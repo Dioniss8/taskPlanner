@@ -5,11 +5,7 @@ function getAllUsersFromDb()
         url: "/api/" + name,
     }).done(function (res) {
         let element = document.getElementById("target");
-        element.innerHTML = "";
-        for (let i = 0; i<res.data.length; i++) {
-            let text = res.data[i].username + " " + res.data[i].id + "\n";
-            element.innerHTML = element.innerHTML + text;
-        }
+        element.innerHTML = res.data[0].username;
         console.log(res.data.length);
     })
 }
@@ -29,7 +25,7 @@ function getStatisticsBySymbolName()
                 changeElementsValue(res.data, "target");
                 changeElementsValue(res.usage, "usage");
             }else {
-                changeElementsValue("Missing symbol");
+                changeElementsValue("Missing symbol", "usage");
             }
     });
 }
