@@ -254,11 +254,5 @@ def index():
     return render_template('apis/index.html', usageYahoo=usageYahoo)
 
 
-@app.route('/cities')
-@login_required
-def citiesIndex():
-    return render_template('cities/index.html')
-
-
 if __name__ == '__main__':
     app.run()
