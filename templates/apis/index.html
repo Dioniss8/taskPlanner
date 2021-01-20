@@ -5,26 +5,33 @@
 {% endblock %}
 
 {% block sidebar %}
-    <div class="sidenav">
-        <a href="#">About</a>
-        <a href="#">Services</a>
-        <a href="#">Clients</a>
-        <a href="#">Contact</a>
-    </div>
+{#    <div class="sidenav">#}
+{#        <a href="#">About</a>#}
+{#        <a href="#">Services</a>#}
+{#        <a href="#">Clients</a>#}
+{#        <a href="#">Contact</a>#}
+{#    </div>#}
 {% endblock %}
 
 {% block main %}
     <form>
         <div class="form-group">
             <h2>Total Number of Yahoo API calls used: <span id="usage">{{ usageYahoo }}</span></h2>
-            <input autocomplete="off" autofocus class="form-control" name="player_key" id="player_key" placeholder="Enter stock symbol" type="text">
+            <input autocomplete="off" autofocus class="form-control" name="symbol" id="symbol" placeholder="Enter stock symbol" type="text">
         </div>
     </form>
 
     <button class="btn btn-primary" onclick="getAllUsersFromDb();">All Users</button>
     <button class="btn btn-primary" onclick="getStatisticsBySymbolName();">Search Symbol</button>
 
-    <div id="target"></div>
+    <hr/>
+    <span id="stockSymbol"></span>
+    <hr/>
+    <span id="keys"></span>
+    <hr/>
+    <span id="exchange"></span>
+    <hr/>
+    <span id="longName"></span>
 
     <script src="static/index.js"></script>
 {% endblock %}

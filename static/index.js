@@ -4,7 +4,7 @@ function getAllUsersFromDb()
     $.ajax({
         url: "/api/" + name,
     }).done(function (res) {
-        let element = document.getElementById("target");
+        let element = document.getElementById("stockSymbol");
         element.innerHTML = res.data[0].username;
         console.log(res.data.length);
     })
@@ -13,7 +13,7 @@ function getAllUsersFromDb()
 function getStatisticsBySymbolName()
 {
     let name = "get-statistics/";
-    let inputNode = document.getElementById("player_key");
+    let inputNode = document.getElementById("symbol");
     let symbol = inputNode.value;
     $.ajax({
         url: "/api/" + name,
@@ -22,8 +22,11 @@ function getStatisticsBySymbolName()
         data: {'symbol': symbol},
     }).done(function (res) {
             if(res.success > 0){
-                changeElementsValue(res.data, "target");
+                changeElementsValue(res.symbol, "stockSymbol");
+                changeElementsValue(res.keys, "keys");
+                changeElementsValue(res.exchange, "exchange");
                 changeElementsValue(res.usage, "usage");
+                changeElementsValue(res.longName, "longName");
             }else {
                 changeElementsValue("Missing symbol", "usage");
             }

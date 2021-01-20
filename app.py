@@ -52,11 +52,21 @@ def getStatistics():
             })
 
         success, data = BaseYahooFinanceService.getStatisticsBySymbolName(symbol)
+
+        response = json.loads(data)
+        symbol = response["symbol"]
+        quoteType = response["quoteType"]
+        exchange = quoteType["exchange"]
+        longName = quoteType["longName"]
+
         usageYahooTotal = len(LoggingService.getAllYahooEvents())
 
         return json.jsonify(({
             'success': int(success),
-            'data': data,
+            'keys': str(response.keys()),
+            'symbol': symbol,
+            'exchange': exchange,
+            'longName': longName,
             'usage': usageYahooTotal,
         }))
 
