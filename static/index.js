@@ -22,6 +22,7 @@ function getStatisticsBySymbolName()
         data: {'symbol': symbol},
     }).done(function (res) {
             if(res.success > 0){
+                changeElementsValue(res.ebitdaMarginRaw, "ebitdaMarginRaw");
                 changeElementsValue(res.symbol, "stockSymbol");
                 changeElementsValue(res.keys, "keys");
                 changeElementsValue(res.exchange, "exchange");

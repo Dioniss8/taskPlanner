@@ -71,6 +71,7 @@ def getStatistics():
             'symbol': symbol,
             'exchange': exchange,
             'longName': longName,
+            'ebitdaMarginRaw': financialData["ebitdaMargins"]["raw"],
             'usage': usageYahooTotal,
         }))
 
