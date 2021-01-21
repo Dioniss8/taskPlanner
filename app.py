@@ -71,6 +71,8 @@ def getStatistics():
         financialData = response["financialData"]
         grossMargin = financialData["grossMargins"]["raw"]
         debtToEquity = financialData["debtToEquity"]["raw"]
+        returnOnAssets = financialData["returnOnAssets"]["raw"]
+        freeCashFlow = financialData["freeCashflow"]["longFmt"]
 
         usageYahooTotal = len(LoggingService.getAllYahooEvents())
 
@@ -83,6 +85,8 @@ def getStatistics():
             'ebitdaMarginRaw': financialData["ebitdaMargins"]["raw"],
             'grossMargin': grossMargin,
             'debtToEquity': debtToEquity,
+            'returnOnAssets': returnOnAssets,
+            'freeCashFlow': freeCashFlow,
             'usage': usageYahooTotal,
         }))
 

@@ -23,8 +23,9 @@
     </form>
 
     <button class="btn btn-primary" onclick="getStatisticsBySymbolName();">Search Symbol</button>
+    <br><br>
 
-    <ul class="list-group" id="list" style="visibility: hidden">
+    <ul class="list-group mt-16" id="list" style="visibility: hidden">
         <li class="list-group-item">
             <b>Symbol: </b>
             <span id="stockSymbol"></span></li>
@@ -48,7 +49,14 @@
             <b>D/E: </b>
             <span id="debtToEquity"></span>
         </li>
-
+        <li class="list-group-item">
+            <b>ROA: </b>
+            <span id="returnOnAssets"></span>
+        </li>
+        <li class="list-group-item">
+            <b>FCF: </b>
+            <span id="freeCashFlow"></span>
+        </li>
 
         <li class="list-group-item"><span id="keys"></span></li>
     </ul>

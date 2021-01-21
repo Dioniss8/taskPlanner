@@ -21,6 +21,8 @@ function getStatisticsBySymbolName()
                 changeElementsValue(res.longName, "longName");
                 changeElementsValue(res.grossMargin, "grossMargin");
                 changeElementsValue(res.debtToEquity, "debtToEquity");
+                changeElementsValue(res.returnOnAssets, "returnOnAssets");
+                changeElementsValue(res.freeCashFlow, "freeCashFlow");
             }else {
                 changeElementsValue(res.reason, "usage");
             }
