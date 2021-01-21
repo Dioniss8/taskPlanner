@@ -49,9 +49,16 @@ def getStatistics():
         if len(symbol) < 1:
             return json.jsonify({
                 'success': False,
+                'reason': 'missing search key',
             })
 
         success, data = BaseYahooFinanceService.getStatisticsBySymbolName(symbol)
+
+        if data.find('empty response') > -1:
+            return json.jsonify({
+                'success': False,
+                'reason': 'symbol not found',
+            })
 
         response = json.loads(data)
 
@@ -62,6 +69,8 @@ def getStatistics():
         longName = quoteType["longName"]
 
         financialData = response["financialData"]
+        grossMargin = financialData["grossMargins"]["raw"]
+        debtToEquity = financialData["debtToEquity"]["raw"]
 
         usageYahooTotal = len(LoggingService.getAllYahooEvents())
 
@@ -72,6 +81,8 @@ def getStatistics():
             'exchange': exchange,
             'longName': longName,
             'ebitdaMarginRaw': financialData["ebitdaMargins"]["raw"],
+            'grossMargin': grossMargin,
+            'debtToEquity': debtToEquity,
             'usage': usageYahooTotal,
         }))
 

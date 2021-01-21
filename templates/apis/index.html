@@ -14,6 +14,7 @@
 {% endblock %}
 
 {% block main %}
+    <div class="alert alert-dark" style="visibility: hidden" id="alerter" role="alert"></div>
     <form>
         <div class="form-group">
             <h2>Total Number of Yahoo API calls used: <span id="usage">{{ usageYahoo }}</span></h2>
@@ -21,19 +22,35 @@
         </div>
     </form>
 
-    <button class="btn btn-primary" onclick="getAllUsersFromDb();">All Users</button>
     <button class="btn btn-primary" onclick="getStatisticsBySymbolName();">Search Symbol</button>
 
-    <ul class="list-group">
-        <li class="list-group-item"><span id="stockSymbol"></span></li>
-        <li class="list-group-item"><span id="exchange"></span></li>
-        <li class="list-group-item"><span id="longName"></span></li>
+    <ul class="list-group" id="list" style="visibility: hidden">
+        <li class="list-group-item">
+            <b>Symbol: </b>
+            <span id="stockSymbol"></span></li>
+        <li class="list-group-item">
+            <b>Exchange: </b>
+            <span id="exchange"></span>
+        </li>
+        <li class="list-group-item">
+            <b>Long name: </b>
+            <span id="longName"></span>
+        </li>
         <li class="list-group-item">
             <b>EBITDA: </b>
             <span id="ebitdaMarginRaw"></span>
         </li>
+        <li class="list-group-item">
+            <b>Gross margin: </b>
+            <span id="grossMargin"></span>
+        </li>
+        <li class="list-group-item">
+            <b>D/E: </b>
+            <span id="debtToEquity"></span>
+        </li>
+
+
         <li class="list-group-item"><span id="keys"></span></li>
     </ul>
-
     <script src="static/index.js"></script>
 {% endblock %}

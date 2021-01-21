@@ -1,14 +1,4 @@
-function getAllUsersFromDb()
-{
-    let name = "get-all-users";
-    $.ajax({
-        url: "/api/" + name,
-    }).done(function (res) {
-        let element = document.getElementById("stockSymbol");
-        element.innerHTML = res.data[0].username;
-        console.log(res.data.length);
-    })
-}
+let isErrorVisible = false;
 
 function getStatisticsBySymbolName()
 {
@@ -22,16 +12,29 @@ function getStatisticsBySymbolName()
         data: {'symbol': symbol},
     }).done(function (res) {
             if(res.success > 0){
+                makeListVisible();
                 changeElementsValue(res.ebitdaMarginRaw, "ebitdaMarginRaw");
                 changeElementsValue(res.symbol, "stockSymbol");
                 changeElementsValue(res.keys, "keys");
                 changeElementsValue(res.exchange, "exchange");
                 changeElementsValue(res.usage, "usage");
                 changeElementsValue(res.longName, "longName");
+                changeElementsValue(res.grossMargin, "grossMargin");
+                changeElementsValue(res.debtToEquity, "debtToEquity");
             }else {
-                changeElementsValue("Missing symbol", "usage");
+                changeElementsValue(res.reason, "usage");
             }
     });
+}
+
+function checkForErrorMessageBox() {
+    //TODO
+}
+
+function makeListVisible()
+{
+    let element = document.getElementById("list");
+    element.style.visibility = "visible";
 }
 
 function changeElementsValue(innerValue, elementId)
