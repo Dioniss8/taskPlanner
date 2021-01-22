@@ -75,7 +75,8 @@ def historicalData():
 
     return json.jsonify({
         'success': True,
-        'data': response["prices"],
+        'timePoints': len(response["prices"]),
+        'data': str(response["prices"][0]),
         'usage': usageYahooTotal,
     })
 
