@@ -42,11 +42,13 @@ def hello_world():
 @app.route('/api/get-historical-data/', methods=["POST"])
 @login_required
 def historicalData():
+    usageYahooTotal = len(LoggingService.getAllYahooEvents())
     symbol = request.form.get("symbol")
     if len(symbol) < 1:
         return json.jsonify({
             'success': False,
             'reason': 'missing search key',
+            'usage': usageYahooTotal,
         })
 
     success, data = BaseYahooFinanceService.getHistoricalDataBySymbol(symbol)
@@ -58,10 +60,10 @@ def historicalData():
         return json.jsonify({
             'success': False,
             'reason': 'symbol not found',
+            'usage': usageYahooTotal + 1,
         })
 
     response = json.loads(data)
-    usageYahooTotal = len(LoggingService.getAllYahooEvents())
 
     return json.jsonify({
         'success': True,
@@ -74,11 +76,13 @@ def historicalData():
 @login_required
 def getStatistics():
     if request.method == "POST":
+        usageYahooTotal = len(LoggingService.getAllYahooEvents())
         symbol = request.form.get("symbol")
         if len(symbol) < 1:
             return json.jsonify({
                 'success': False,
                 'reason': 'missing search key',
+                'usage': usageYahooTotal,
             })
 
         success, data = BaseYahooFinanceService.getStatisticsBySymbolName(symbol)
@@ -90,6 +94,7 @@ def getStatistics():
             return json.jsonify({
                 'success': False,
                 'reason': 'symbol not found',
+                'usage': usageYahooTotal + 1,
             })
 
         response = json.loads(data)
@@ -106,8 +111,6 @@ def getStatistics():
         returnOnAssets = financialData["returnOnAssets"]["raw"]
         freeCashFlow = financialData["freeCashflow"]["longFmt"]
 
-        usageYahooTotal = len(LoggingService.getAllYahooEvents())
-
         return json.jsonify(({
             'success': int(success),
             'keys': str(financialData.keys()),
@@ -119,7 +122,7 @@ def getStatistics():
             'debtToEquity': debtToEquity,
             'returnOnAssets': returnOnAssets,
             'freeCashFlow': freeCashFlow,
-            'usage': usageYahooTotal,
+            'usage': usageYahooTotal + 1,
         }))
 
 

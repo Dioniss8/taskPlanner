@@ -1,4 +1,4 @@
-let isErrorVisible = false;
+let error = false;
 
 function getHistoricalDataBySymbolName()
 {
@@ -14,10 +14,9 @@ function getHistoricalDataBySymbolName()
             changeElementsValue(res.data, "keys");
             changeElementsValue(res.usage, "usage");
         } else {
-            /**
-             * here should go the error message
-             */
+            changeElementsValue(res.usage, "usage");
         }
+        checkForErrorMessageBox(res.success, res.reason);
     })
 }
 
@@ -45,13 +44,23 @@ function getStatisticsBySymbolName()
                 changeElementsValue(res.returnOnAssets, "returnOnAssets");
                 changeElementsValue(res.freeCashFlow, "freeCashFlow");
             }else {
-                changeElementsValue(res.reason, "usage");
+                changeElementsValue(res.usage, "usage");
             }
+
+            checkForErrorMessageBox(res.success, res.reason);
     });
 }
 
-function checkForErrorMessageBox() {
-    //TODO
+function checkForErrorMessageBox(success, error) {
+    let element = document.getElementById("alerter");
+    if (success === false) {
+        element.innerHTML = "<b>" + error + "</b>";
+        element.style.visibility = "visible";
+        return;
+    }
+
+    element.innerHTML = "";
+    element.style.visibility = "hidden";
 }
 
 function makeListVisible()
