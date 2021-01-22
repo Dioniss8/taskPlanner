@@ -1,5 +1,6 @@
 from flask import Flask, flash, json, render_template, request, redirect, session
 from flask_session import Session
+from flask_caching import Cache
 from tempfile import mkdtemp
 from src.services.ListService import ListService
 from src.services.TaskService import TaskService
@@ -22,7 +23,14 @@ app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config["SESSION_FILE_DIR"] = mkdtemp()
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
+
+# Configure cache
+app.config["CACHE_TYPE"] = "simple"
+app.config["CACHE_DEFAULT_TIMEOUT"] = 300
+
 Session(app)
+cache = Cache(app)
+
 
 BaseYahooFinanceService = BaseYahooFinanceService()
 ListService = ListService()
