@@ -1,4 +1,6 @@
-let error = false;
+/**
+ * Probably should have used alert()...
+ */
 
 function getHistoricalDataBySymbolName()
 {
