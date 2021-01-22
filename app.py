@@ -77,7 +77,7 @@ def historicalData():
         'success': True,
         'timePoints': len(response["prices"]),
         'data': str(response["prices"][0]),
-        'usage': usageYahooTotal,
+        'usage': usageYahooTotal + 1,
     })
 
 
