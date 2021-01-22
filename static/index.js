@@ -13,6 +13,7 @@ function getHistoricalDataBySymbolName()
         data: {"symbol": symbol},
     }).done(function (res) {
         if (res.success > 0) {
+            makeListVisible();
             changeElementsValue(res.data, "keys");
             changeElementsValue(res.usage, "usage");
         } else {
@@ -39,16 +40,14 @@ function getStatisticsBySymbolName()
                 changeElementsValue(res.symbol, "stockSymbol");
                 changeElementsValue(res.keys, "keys");
                 changeElementsValue(res.exchange, "exchange");
-                changeElementsValue(res.usage, "usage");
                 changeElementsValue(res.longName, "longName");
                 changeElementsValue(res.grossMargin, "grossMargin");
                 changeElementsValue(res.debtToEquity, "debtToEquity");
                 changeElementsValue(res.returnOnAssets, "returnOnAssets");
                 changeElementsValue(res.freeCashFlow, "freeCashFlow");
-            }else {
-                changeElementsValue(res.usage, "usage");
             }
 
+            changeElementsValue(res.usage, "usage");
             checkForErrorMessageBox(res.success, res.reason);
     });
 }
