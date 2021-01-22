@@ -12,6 +12,15 @@ class BaseYahooFinanceService:
             'x-rapidapi-host': "apidojo-yahoo-finance-v1.p.rapidapi.com"
         }
 
+    def getHistoricalDataBySymbol(self, symbolName):
+        url = "/stock/v3/get-historical-data?symbol=" + symbolName + "&region=" + DEFAULT_REGION
+
+        success, data = self.getAndFormatResponseAsString("GET", url)
+        if not success:
+            return False, data
+
+        return True, data
+
     def getStatisticsBySymbolName(self, symbolName):
         url = "/stock/v2/get-statistics?symbol=" + symbolName + "&region=" + DEFAULT_REGION
 
