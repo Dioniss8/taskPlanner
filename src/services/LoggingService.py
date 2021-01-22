@@ -1,9 +1,15 @@
 from src.repos.LogsRepo import LogsRepo
 from flask import flash, redirect
 
+'''Should fix the flash messages, but pretty sure this doesnt work,
+do I even need to error check log messages???
+!!! This doesnt really makes sense to make this as... 
+'''
+
 EVENT_YAHOO = "get_yahoo_event"
 EVENT_GET_ALL_USERS = "get_all_players_event"
 EVENT_GET_STATISTICS = "get_statistics_event"
+EVENT_GET_HISTORICAL_DATA = "get_historical_data_event"
 EVENT_REGISTER = "register_event"
 
 
@@ -11,6 +17,14 @@ class LoggingService:
 
     def __init__(self):
         self.logsRepo = LogsRepo()
+
+    def saveGetHistoricalDataEvent(self, user_id):
+        success, error = self.saveEventWithMessage(EVENT_YAHOO, user_id, EVENT_GET_HISTORICAL_DATA)
+        if not success:
+            flash("GetHistory event failed")
+            return False, error
+
+        return True, error
 
     def saveGetStatisticsEvent(self, user_id):
         success, error = self.saveEventWithMessage(EVENT_YAHOO, user_id, EVENT_GET_STATISTICS)

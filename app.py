@@ -39,12 +39,41 @@ def hello_world():
     return render_template('tasks/index.html', data=data)
 
 
+@app.route('/api/get-historical-data/', methods=["POST"])
+@login_required
+def historicalData():
+    symbol = request.form.get("symbol")
+    if len(symbol) < 1:
+        return json.jsonify({
+            'success': False,
+            'reason': 'missing search key',
+        })
+
+    success, data = BaseYahooFinanceService.getHistoricalDataBySymbol(symbol)
+
+    user_id = session["user_id"]
+    LoggingService.saveGetHistoricalDataEvent(user_id)
+
+    if data.find('empty response') > -1:
+        return json.jsonify({
+            'success': False,
+            'reason': 'symbol not found',
+        })
+
+    response = json.loads(data)
+    usageYahooTotal = len(LoggingService.getAllYahooEvents())
+
+    return json.jsonify({
+        'success': True,
+        'data': response["prices"],
+        'usage': usageYahooTotal,
+    })
+
+
 @app.route('/api/get-statistics/', methods=["POST"])
 @login_required
 def getStatistics():
     if request.method == "POST":
-        user_id = session["user_id"]
-        LoggingService.saveGetStatisticsEvent(user_id)
         symbol = request.form.get("symbol")
         if len(symbol) < 1:
             return json.jsonify({
@@ -53,6 +82,9 @@ def getStatistics():
             })
 
         success, data = BaseYahooFinanceService.getStatisticsBySymbolName(symbol)
+
+        user_id = session["user_id"]
+        LoggingService.saveGetStatisticsEvent(user_id)
 
         if data.find('empty response') > -1:
             return json.jsonify({

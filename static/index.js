@@ -1,5 +1,26 @@
 let isErrorVisible = false;
 
+function getHistoricalDataBySymbolName()
+{
+    let inputNode = document.getElementById("symbol");
+    let symbol = inputNode.value;
+    $.ajax({
+        url: "/api/get-historical-data/",
+        dataType: "json",
+        type: "POST",
+        data: {"symbol": symbol},
+    }).done(function (res) {
+        if (res.success > 0) {
+            changeElementsValue(res.data, "keys");
+            changeElementsValue(res.usage, "usage");
+        } else {
+            /**
+             * here should go the error message
+             */
+        }
+    })
+}
+
 function getStatisticsBySymbolName()
 {
     let name = "get-statistics/";
