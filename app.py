@@ -116,6 +116,7 @@ def getStatistics():
 
         financialData = response["financialData"]
         grossMargin = financialData["grossMargins"]["raw"]
+        operatingMargin = financialData["operatingMargins"]["raw"]
         debtToEquity = financialData["debtToEquity"]["raw"]
         returnOnAssets = financialData["returnOnAssets"]["raw"]
         freeCashFlow = financialData["freeCashflow"]["longFmt"]
@@ -128,6 +129,7 @@ def getStatistics():
             'longName': longName,
             'ebitdaMarginRaw': financialData["ebitdaMargins"]["raw"],
             'grossMargin': grossMargin,
+            'operatingMargin': operatingMargin,
             'debtToEquity': debtToEquity,
             'returnOnAssets': returnOnAssets,
             'freeCashFlow': freeCashFlow,

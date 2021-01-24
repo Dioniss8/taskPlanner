@@ -42,6 +42,7 @@ function getStatisticsBySymbolName()
                 changeElementsValue(res.exchange, "exchange");
                 changeElementsValue(res.longName, "longName");
                 changeElementsValue(res.grossMargin, "grossMargin");
+                changeElementsValue(res.operatingMargin, "operatingMargin");
                 changeElementsValue(res.debtToEquity, "debtToEquity");
                 changeElementsValue(res.returnOnAssets, "returnOnAssets");
                 changeElementsValue(res.freeCashFlow, "freeCashFlow");
