@@ -1,6 +1,6 @@
 function getAdjustedCloseArray() {
-	let counter = 0;
 	let adjCloseSeries = [];
+	let openSeries = [];
 	let symbol = document.getElementById("symbol").value;
 	$.ajax({
 		url: "/api/get-historical-data/",
@@ -9,20 +9,20 @@ function getAdjustedCloseArray() {
 		data: {"symbol": symbol},
 	}).done(function (res) {
 		for(let i = 0; i<res.timePoints; i++) {
-			adjCloseSeries.push({x: counter, y: res.data[counter]["adjclose"]});
-			counter++;
+			adjCloseSeries.push({x: i, y: res.data[res.timePoints - (i+1)]["adjclose"]});
+			openSeries.push({x: i, y: res.data[res.timePoints - (i+1)]["open"]});
 		}
 		changeElementsValue(res.usage, "usage");
-		renderChart(adjCloseSeries);
+		renderChart(adjCloseSeries, openSeries);
 	})
 }
 
-function renderChart(dataPoints) {
+function renderChart(adjCloseList, openSeries) {
 
 var chart = new CanvasJS.Chart("chartContainer", {
 	animationEnabled: true,
 	title:{
-		text: "Daily High Temperature at Different Beaches"
+		text: "Stocks values"
 	},
 	axisX: {
 		valueFormatString: "DD MMM,YY"
@@ -43,7 +43,13 @@ var chart = new CanvasJS.Chart("chartContainer", {
 		name: "Myrtle Beach",
 		type: "spline",
 		showInLegend: true,
-		dataPoints: dataPoints,
+		dataPoints: adjCloseList,
+	},
+	{
+		name: "Myrtle Beach",
+		type: "spline",
+		showInLegend: true,
+		dataPoints: openSeries,
 	}],
 });
 chart.render();
