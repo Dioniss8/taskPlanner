@@ -1,4 +1,23 @@
-function renderChart() {
+function getAdjustedCloseArray() {
+	let counter = 0;
+	let adjCloseSeries = [];
+	let symbol = document.getElementById("symbol").value;
+	$.ajax({
+		url: "/api/get-historical-data/",
+		dataType: "json",
+		type: "POST",
+		data: {"symbol": symbol},
+	}).done(function (res) {
+		for(let i = 0; i<res.timePoints; i++) {
+			adjCloseSeries.push({x: counter, y: res.data[counter]["adjclose"]});
+			counter++;
+		}
+		changeElementsValue(res.usage, "usage");
+		renderChart(adjCloseSeries);
+	})
+}
+
+function renderChart(dataPoints) {
 
 var chart = new CanvasJS.Chart("chartContainer", {
 	animationEnabled: true,
@@ -23,48 +42,9 @@ var chart = new CanvasJS.Chart("chartContainer", {
 	data: [{
 		name: "Myrtle Beach",
 		type: "spline",
-		yValueFormatString: "#0.## °C",
 		showInLegend: true,
-		dataPoints: [
-			{ x: new Date(2017,6,24), y: 31 },
-			{ x: new Date(2017,6,25), y: 31 },
-			{ x: new Date(2017,6,26), y: 29 },
-			{ x: new Date(2017,6,27), y: 29 },
-			{ x: new Date(2017,6,28), y: 31 },
-			{ x: new Date(2017,6,29), y: 30 },
-			{ x: new Date(2017,6,30), y: 29 }
-		]
-	},
-	{
-		name: "Martha Vineyard",
-		type: "spline",
-		yValueFormatString: "#0.## °C",
-		showInLegend: true,
-		dataPoints: [
-			{ x: new Date(2017,6,24), y: 20 },
-			{ x: new Date(2017,6,25), y: 20 },
-			{ x: new Date(2017,6,26), y: 25 },
-			{ x: new Date(2017,6,27), y: 25 },
-			{ x: new Date(2017,6,28), y: 25 },
-			{ x: new Date(2017,6,29), y: 25 },
-			{ x: new Date(2017,6,30), y: 25 }
-		]
-	},
-	{
-		name: "Nantucket",
-		type: "spline",
-		yValueFormatString: "#0.## °C",
-		showInLegend: true,
-		dataPoints: [
-			{ x: new Date(2017,6,24), y: 22 },
-			{ x: new Date(2017,6,25), y: 19 },
-			{ x: new Date(2017,6,26), y: 23 },
-			{ x: new Date(2017,6,27), y: 24 },
-			{ x: new Date(2017,6,28), y: 24 },
-			{ x: new Date(2017,6,29), y: 23 },
-			{ x: new Date(2017,6,30), y: 23 }
-		]
-	}]
+		dataPoints: dataPoints,
+	}],
 });
 chart.render();
 
@@ -78,4 +58,10 @@ function toggleDataSeries(e){
 	chart.render();
 }
 
+}
+
+function changeElementsValue(innerValue, elementId)
+{
+    let element = document.getElementById(elementId)
+    element.innerHTML = innerValue
 }
