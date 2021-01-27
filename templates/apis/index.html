@@ -19,6 +19,7 @@
 
     <button class="btn btn-primary" onclick="getStatisticsBySymbolName();">Search Symbol</button>
     <button class="btn btn-primary" onclick="getHistoricalDataBySymbolName();">Get Historical data</button>
+    <button class="btn btn-primary" onclick="renderChart();">Get Chart</button>
     <br><br>
 
     <div class="container-fluid" id="list" style="visibility: hidden">
@@ -76,6 +77,7 @@
     </div>
 
     <script src="static/index.js"></script>
+    <script src="static/charts.js"></script>
 {% endblock %}
 
 {% block footerScripts %}

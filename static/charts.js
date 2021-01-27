@@ -1,4 +1,4 @@
-window.onload = function () {
+function renderChart() {
 
 var chart = new CanvasJS.Chart("chartContainer", {
 	animationEnabled: true,
