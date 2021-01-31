@@ -84,20 +84,24 @@ function getStatisticsBySymbolName()
     }).done(function (res) {
             if(res.success > 0){
                 makeListVisible();
-                changeElementsValue(res.ebitdaMarginRaw, "ebitdaMarginRaw");
-                changeElementsValue(res.symbol, "stockSymbol");
-                changeElementsValue(res.keys, "keys");
-                changeElementsValue(res.exchange, "exchange");
-                changeElementsValue(res.longName, "longName");
-                changeElementsValue(res.grossMargin, "grossMargin");
-                changeElementsValue(res.operatingMargin, "operatingMargin");
-                changeElementsValue(res.debtToEquity, "debtToEquity");
-                changeElementsValue(res.returnOnAssets, "returnOnAssets");
-                changeElementsValue(res.freeCashFlow, "freeCashFlow");
+                const financialStatistics = res.financialStatistics;
+				Object.keys(financialStatistics).forEach(function (key) {
+					if (financialStatistics[key].fmt) {
+						let inputString = "<b>" + key + "</b> " + financialStatistics[key].fmt;
+						let element = document.createElement("li");
+						element.innerHTML = inputString;
+						element.className = "list-group-item";
+
+						let target = document.getElementById("financialStatistics");
+						target.appendChild(element);
+					}
+				});
             }
 
             changeElementsValue(res.usage, "usage");
             checkForErrorMessageBox(res.success, res.reason);
+
+            getAdjustedCloseArray();
     });
 }
 
@@ -117,10 +121,4 @@ function makeListVisible()
 {
     let element = document.getElementById("list");
     element.style.visibility = "visible";
-}
-
-function changeElementsValue(innerValue, elementId)
-{
-    let element = document.getElementById(elementId)
-    element.innerHTML = innerValue
 }

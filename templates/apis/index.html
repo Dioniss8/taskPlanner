@@ -18,59 +18,15 @@
     </form>
 
     <button class="btn btn-primary" onclick="getStatisticsBySymbolName();">Search Symbol</button>
-    <button class="btn btn-primary" onclick="getAdjustedCloseArray();">Get Chart</button>
     <br><br>
 
     <div class="container-fluid" id="list" style="visibility: hidden">
         <div class="row">
-            <div id="chartContainer" style="height: 370px; width: 100%;">Hey Jude</div>
-        </div>
-        <br><br>
-        <div class="row">
-            <div class="col-md-4">
-                <ul class="list-group mt-16">
-                    <li class="list-group-item">
-                        <b>Symbol: </b>
-                        <span id="stockSymbol"></span></li>
-                    <li class="list-group-item">
-                        <b>Exchange: </b>
-                        <span id="exchange"></span>
-                    </li>
-                    <li class="list-group-item">
-                        <b>Long name: </b>
-                        <span id="longName"></span>
-                    </li>
-                    <li class="list-group-item">
-                        <b>Gross margin: </b>
-                        <span id="grossMargin"></span>
-                    </li>
-                    <li class="list-group-item">
-                        <b>EBITDA: </b>
-                        <span id="ebitdaMarginRaw"></span>
-                    </li>
-                    <li class="list-group-item">
-                        <b>Operating Margin: </b>
-                        <span id="operatingMargin"></span>
-                    </li>
-                    <li class="list-group-item">
-                        <b>D/E: </b>
-                        <span id="debtToEquity"></span>
-                    </li>
-                    <li class="list-group-item">
-                        <b>ROA: </b>
-                        <span id="returnOnAssets"></span>
-                    </li>
-                    <li class="list-group-item">
-                        <b>FCF: </b>
-                        <span id="freeCashFlow"></span>
-                    </li>
-                </ul>
+            <div class="col-md-5">
+                <ul class="list-group mt-16" id="financialStatistics"></ul>
             </div>
-
-            <div class="col-md-8">
-                <ul class="list-group">
-                    <li class="list-group-item"><span id="keys"></span></li>
-                </ul>
+            <div class="col-md-7">
+                <div id="chartContainer" style="height: 370px; width: 100%;"></div>
             </div>
         </div>
     </div>

@@ -121,7 +121,16 @@ def getStatistics():
         returnOnAssets = financialData["returnOnAssets"]["raw"]
         freeCashFlow = financialData["freeCashflow"]["longFmt"]
 
+        keysCount = 0
+        financialStatistics = {}
+        for item in financialData.keys():
+            data = financialData[item]
+            financialStatistics[item] = data
+            keysCount = keysCount + 1
+
         return json.jsonify(({
+            'financialStatistics': financialStatistics,
+            'keyCount': keysCount,
             'success': int(success),
             'keys': str(financialData.keys()),
             'symbol': symbol,
