@@ -1,5 +1,5 @@
 LOGS
-CREATE TABLE users (
+CREATE TABLE logs (
     id INTEGER PRIMARY KEY NOT NULL,
     type TEXT NOT NULL,
     message TEXT NOT NULL,
