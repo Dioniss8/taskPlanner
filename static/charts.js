@@ -1,4 +1,4 @@
-function getAdjustedCloseArray() {
+function getAdjustedCloseArray(longName) {
 	let adjCloseSeries = [];
 	let openSeries = [];
 	let symbol = document.getElementById("symbol").value;
@@ -13,16 +13,16 @@ function getAdjustedCloseArray() {
 			openSeries.push({x: i, y: res.data[res.timePoints - (i+1)]["open"]});
 		}
 		changeElementsValue(res.usage, "usage");
-		renderChart(adjCloseSeries, openSeries);
+		renderChart(longName, adjCloseSeries, openSeries);
 	})
 }
 
-function renderChart(adjCloseList, openSeries) {
+function renderChart(longName, adjCloseList, openSeries) {
 
 var chart = new CanvasJS.Chart("chartContainer", {
 	animationEnabled: true,
 	title:{
-		text: "Price graph",
+		text: longName,
 	},
 	axisX: {
 		title: "Time",
@@ -82,8 +82,10 @@ function getStatisticsBySymbolName()
         type: "POST",
         data: {'symbol': symbol},
     }).done(function (res) {
+    		console.log(res);
             if(res.success > 0){
                 makeListVisible();
+
                 const financialStatistics = res.financialStatistics;
 				Object.keys(financialStatistics).forEach(function (key) {
 					if (financialStatistics[key].fmt) {
@@ -96,12 +98,40 @@ function getStatisticsBySymbolName()
 						target.appendChild(element);
 					}
 				});
+
+				const defaultKeyStatistics = res.defaultKeyStatistics;
+				Object.keys(defaultKeyStatistics).forEach(function (key) {
+					if (defaultKeyStatistics[key] && defaultKeyStatistics[key].fmt !== undefined) {
+						let inputString = "<b>" + key + "</b> " + defaultKeyStatistics[key].fmt;
+						let element = document.createElement("li");
+						element.innerHTML = inputString;
+						element.className = "list-group-item";
+
+						let target = document.getElementById("defaultKeyStatistics");
+						target.appendChild(element);
+					}
+				});
+
+				const summaryDetail = res.summaryDetail;
+				Object.keys(summaryDetail).forEach(function (key) {
+					if (summaryDetail[key] && summaryDetail[key].fmt) {
+						let inputString =  "<b>" + key + "</b> " + summaryDetail[key].fmt;
+						let element = document.createElement("li");
+						element.innerHTML = inputString;
+						element.className = "list-group-item";
+
+						let target = document.getElementById("summaryDetail");
+						target.appendChild(element);
+					}
+				});
             }
 
             changeElementsValue(res.usage, "usage");
             checkForErrorMessageBox(res.success, res.reason);
 
-            getAdjustedCloseArray();
+            if (res.success > 0) {
+	            getAdjustedCloseArray(res.longName);
+			}
     });
 }
 

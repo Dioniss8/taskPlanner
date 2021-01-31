@@ -111,25 +111,21 @@ def getStatistics():
         symbol = response["symbol"]
 
         quoteType = response["quoteType"]
+        '''This should be used in the view'''
         exchange = quoteType["exchange"]
         longName = quoteType["longName"]
 
-        financialData = response["financialData"]
-        '''defaultKeyStats might be interesting'''
-
-        keysCount = 0
-        financialStatistics = {}
-        for item in financialData.keys():
-            data = financialData[item]
-            financialStatistics[item] = data
-            keysCount = keysCount + 1
+        financialStatistics = response["financialData"]
+        defaultKeyStats = response["defaultKeyStatistics"]
+        summaryDetail = response["summaryDetail"]
 
         return json.jsonify(({
             'financialStatistics': financialStatistics,
-            'keyCount': keysCount,
+            'defaultKeyStatistics': defaultKeyStats,
+            'summaryDetail': summaryDetail,
+            'longName': longName,
             'success': int(success),
             'symbol': symbol,
-            'exchange': exchange,
             'usage': usageYahooTotal + 1,
         }))
 
