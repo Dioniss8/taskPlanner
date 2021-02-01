@@ -5,6 +5,14 @@ from flask import redirect, session
 listRepo = ListRepo()
 
 
+def getHistoricalDataCacheKey(symbol):
+    return "historical_statistics" + symbol
+
+
+def getStatisticsDataCacheKey(symbol):
+    return "get_statistics" + symbol
+
+
 def login_required(f):
     """
     Decorate routes to require login.

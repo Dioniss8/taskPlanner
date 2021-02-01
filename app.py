@@ -7,7 +7,7 @@ from src.services.TaskService import TaskService
 from src.services.UserService import UserService
 from src.services.LoggingService import LoggingService
 from src.api.BaseYahooFinanceService import BaseYahooFinanceService
-from src.helpers.Helpers import login_required
+from src.helpers.Helpers import login_required, getHistoricalDataCacheKey, getStatisticsDataCacheKey
 
 app = Flask(__name__)
 
@@ -59,25 +59,31 @@ def historicalData():
             'usage': usageYahooTotal,
         })
 
-    success, data = BaseYahooFinanceService.getHistoricalDataBySymbol(symbol)
+    cachedValue = cache.get(getHistoricalDataCacheKey(symbol))
+    if not cachedValue:
+        success, data = BaseYahooFinanceService.getHistoricalDataBySymbol(symbol)
+        cache.set(getHistoricalDataCacheKey(symbol), [success, data])
+        user_id = session["user_id"]
+        LoggingService.saveGetHistoricalDataEvent(user_id)
+    else:
+        success, data = cachedValue[0], cachedValue[1]
 
-    user_id = session["user_id"]
-    LoggingService.saveGetHistoricalDataEvent(user_id)
-
+    usageYahooTotal = len(LoggingService.getAllYahooEvents())
     if data.find('empty response') > -1:
         return json.jsonify({
             'success': False,
             'reason': 'symbol not found',
-            'usage': usageYahooTotal + 1,
+            'usage': usageYahooTotal,
         })
 
     response = json.loads(data)
 
+    usageYahooTotal = len(LoggingService.getAllYahooEvents())
     return json.jsonify({
         'success': True,
         'timePoints': len(response["prices"]),
         'data': response["prices"],
-        'usage': usageYahooTotal + 1,
+        'usage': usageYahooTotal,
     })
 
 
@@ -94,16 +100,21 @@ def getStatistics():
                 'usage': usageYahooTotal,
             })
 
-        success, data = BaseYahooFinanceService.getStatisticsBySymbolName(symbol)
+        cachedValue = cache.get(getStatisticsDataCacheKey(symbol))
+        if not cachedValue:
+            success, data = BaseYahooFinanceService.getStatisticsBySymbolName(symbol)
+            cache.set(getStatisticsDataCacheKey(symbol), [success, data])
+            user_id = session["user_id"]
+            LoggingService.saveGetStatisticsEvent(user_id)
+        else:
+            success, data = cachedValue[0], cachedValue[1]
 
-        user_id = session["user_id"]
-        LoggingService.saveGetStatisticsEvent(user_id)
-
+        usageYahooTotal = len(LoggingService.getAllYahooEvents())
         if data.find('empty response') > -1:
             return json.jsonify({
                 'success': False,
                 'reason': 'symbol not found',
-                'usage': usageYahooTotal + 1,
+                'usage': usageYahooTotal,
             })
 
         response = json.loads(data)
@@ -119,6 +130,7 @@ def getStatistics():
         defaultKeyStats = response["defaultKeyStatistics"]
         summaryDetail = response["summaryDetail"]
 
+        usageYahooTotal = len(LoggingService.getAllYahooEvents())
         return json.jsonify(({
             'financialStatistics': financialStatistics,
             'defaultKeyStatistics': defaultKeyStats,
@@ -126,7 +138,7 @@ def getStatistics():
             'longName': longName,
             'success': int(success),
             'symbol': symbol,
-            'usage': usageYahooTotal + 1,
+            'usage': usageYahooTotal,
         }))
 
 
