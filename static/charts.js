@@ -82,10 +82,11 @@ function getStatisticsBySymbolName()
         type: "POST",
         data: {'symbol': symbol},
     }).done(function (res) {
-    		console.log(res);
             if(res.success > 0){
                 makeListVisible();
 
+                let financialStats = document.getElementById("financialStatistics");
+                financialStats.innerHTML = "";
                 const financialStatistics = res.financialStatistics;
 				Object.keys(financialStatistics).forEach(function (key) {
 					if (financialStatistics[key].fmt) {
@@ -93,12 +94,12 @@ function getStatisticsBySymbolName()
 						let element = document.createElement("li");
 						element.innerHTML = inputString;
 						element.className = "list-group-item";
-
-						let target = document.getElementById("financialStatistics");
-						target.appendChild(element);
+						financialStats.appendChild(element);
 					}
 				});
 
+				let defaultKeyStats = document.getElementById("defaultKeyStatistics");
+				defaultKeyStats.innerHTML = "";
 				const defaultKeyStatistics = res.defaultKeyStatistics;
 				Object.keys(defaultKeyStatistics).forEach(function (key) {
 					if (defaultKeyStatistics[key] && defaultKeyStatistics[key].fmt !== undefined) {
@@ -106,12 +107,12 @@ function getStatisticsBySymbolName()
 						let element = document.createElement("li");
 						element.innerHTML = inputString;
 						element.className = "list-group-item";
-
-						let target = document.getElementById("defaultKeyStatistics");
-						target.appendChild(element);
+						defaultKeyStats.appendChild(element);
 					}
 				});
 
+				let summaryDetailStats = document.getElementById("summaryDetail");
+				summaryDetailStats.innerHTML = "";
 				const summaryDetail = res.summaryDetail;
 				Object.keys(summaryDetail).forEach(function (key) {
 					if (summaryDetail[key] && summaryDetail[key].fmt) {
@@ -119,9 +120,7 @@ function getStatisticsBySymbolName()
 						let element = document.createElement("li");
 						element.innerHTML = inputString;
 						element.className = "list-group-item";
-
-						let target = document.getElementById("summaryDetail");
-						target.appendChild(element);
+						summaryDetailStats.appendChild(element);
 					}
 				});
             }
