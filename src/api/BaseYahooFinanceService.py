@@ -1,4 +1,5 @@
 import http.client
+import os
 
 DEFAULT_REGION = "US"
 
@@ -8,7 +9,7 @@ class BaseYahooFinanceService:
     def __init__(self):
         self.conn = http.client.HTTPSConnection("apidojo-yahoo-finance-v1.p.rapidapi.com")
         self.headers = {
-            'x-rapidapi-key': "68a7808744msh45159e559d39863p1f1216jsn53dde588f2c0",
+            'x-rapidapi-key': os.environ.get("RAPID_API_KEY"),
             'x-rapidapi-host': "apidojo-yahoo-finance-v1.p.rapidapi.com"
         }
 
