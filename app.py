@@ -47,6 +47,14 @@ def hello_world():
     return render_template('tasks/index.html', data=data)
 
 
+@app.route('/multiples')
+@login_required
+def multiples():
+    userId = session["user_id"]
+    categories = ListService.getAllCategories(userId)
+    return render_template('multiples/index.html', categories=categories)
+
+
 @app.route('/api/get-historical-data/', methods=["POST"])
 @login_required
 def historicalData():
