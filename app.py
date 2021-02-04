@@ -55,6 +55,12 @@ def multiples():
     return render_template('multiples/index.html', categories=categories)
 
 
+@app.route('/multiples/get-data')
+@login_required
+def getData():
+    '''TODO'''
+
+
 @app.route('/api/get-historical-data/', methods=["POST"])
 @login_required
 def historicalData():
