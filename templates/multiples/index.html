@@ -9,11 +9,13 @@
     <div class="form-group">
     <form action="/multiples/get-data" method="post">
         <select multiple class="form-control" id="groups-chosen" name="groups-chosen">
-        {% for category in categories %}
-            <option value="{{ category["id"] }}">{{ category["cat_name"] }}</option>
-        {% endfor %}
+
+            {% for category in categories %}
+                <option value="{{ category["id"] }}">{{ category["cat_name"] }}</option>
+            {% endfor %}
         </select>
-    <br><br>
+        <br><br>
+
         <button class="btn btn-primary" type="submit" >Multiples</button>
     </form>
     </div>
