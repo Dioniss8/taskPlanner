@@ -1,0 +1,61 @@
+CATEGORY_DEFAULT_KEY_STATISTICS = "defaultKeyStatistics"
+CATEGORY_FINANCIAL_STATISTICS = "financialStatistics"
+CATEGORY_SUMMARY_DETAIL = "summaryDetail"
+
+BETA = "beta"
+CURRENT_PRICE = "currentPrice"
+EBITDA = "ebitda"
+EBITDA_MARGINS = "ebitdaMargins"
+ENTERPRISE_VALUE = "enterpriseValue"
+ENTERPRISE_TO_REVENUE = "enterpriseToRevenue"
+ENTERPRISE_TO_EBITDA = "enterpriseToEbitda"
+FORWARD_P_TO_E = "forwardPE"
+FLOAT_SHARES = "floatShares"
+FREE_CASH_FLOW = "freeCashFlow"
+OPERATING_MARGINS = "operatingMargins"
+OPERATING_CASH_FLOW = "operatingCashFlow"
+PAYOUT_RATIO = "payoutRatio"
+TOTAL_REVENUE = "totalRevenue"
+SHARES_SHORT = "sharesShort"
+SHORT_SHARES_OF_FLOAT = "shortPercentOfFloat"
+RECOMMENDATION_MEAN = "recommendationMean"
+VOLUME = "volume"
+
+FINANCIAL_STATISTICS_CATEGORIES = [
+    CURRENT_PRICE,
+    EBITDA,
+    EBITDA_MARGINS,
+    FREE_CASH_FLOW,
+    OPERATING_MARGINS,
+    OPERATING_CASH_FLOW,
+    TOTAL_REVENUE,
+    RECOMMENDATION_MEAN,
+]
+
+DEFAULT_KEY_STATISTICS_CATEGORIES = [
+    ENTERPRISE_VALUE,
+    ENTERPRISE_TO_REVENUE,
+    ENTERPRISE_TO_EBITDA,
+    FLOAT_SHARES,
+    SHARES_SHORT,
+    SHORT_SHARES_OF_FLOAT,
+]
+
+SUMMARY_DETAIL_CATEGORIES = [
+    BETA,
+    FORWARD_P_TO_E,
+    PAYOUT_RATIO,
+    VOLUME,
+]
+
+
+def getFinancialStatsCategories():
+    return FINANCIAL_STATISTICS_CATEGORIES
+
+
+def getDefaultKeyStatsCategories():
+    return DEFAULT_KEY_STATISTICS_CATEGORIES
+
+
+def getSummaryDetailCategories():
+    return SUMMARY_DETAIL_CATEGORIES
