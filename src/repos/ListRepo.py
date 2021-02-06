@@ -15,6 +15,13 @@ class ListRepo(BaseRepo):
         self.DEFAULT_MIN_STRING_LENGTH = DEFAULT_MIN_STRING_LENGTH
         self.DEFAULT_MIN_ITEM_LENGTH = DEFAULT_MIN_ITEM_LENGTH
 
+    def getItemsByCategoryId(self, catId):
+        items = self.db.execute("""SELECT *
+                                    FROM items
+                                    WHERE cat_nam=:catId""",
+                                catId=catId)
+        return items
+
     def addCategory(self, name, length, userId):
         self.db.execute("""INSERT INTO categories (cat_name, len, deleted, user_id)
                             VALUES (:cat_name, :len, :deleted, :user_id)""",

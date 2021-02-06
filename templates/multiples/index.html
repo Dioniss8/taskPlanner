@@ -8,7 +8,7 @@
     <div class="alert alert-dark" style="visibility: hidden" id="alerter" role="alert"></div>
     <div class="form-group">
     <form action="/multiples/get-data" method="post">
-        <select multiple class="form-control" id="groups-chosen" name="groups-chosen">
+        <select multiple="multiple" class="form-control" id="groups-chosen" name="groups-chosen">
 
             {% for category in categories %}
                 <option value="{{ category["id"] }}">{{ category["cat_name"] }}</option>

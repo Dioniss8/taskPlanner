@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Yahoo Finance Page
+{% endblock %}
+
+{% block main %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                {% if data %}
+                    <ul class="list-group">
+                    {% for row in data %}
+                        <li class="list-group-item">
+                            {{ row["item_name"] }}
+                        </li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

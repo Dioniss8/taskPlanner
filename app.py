@@ -55,10 +55,17 @@ def multiples():
     return render_template('multiples/index.html', categories=categories)
 
 
-@app.route('/multiples/get-data')
+@app.route('/multiples/get-data', methods=["POST"])
 @login_required
 def getData():
-    '''TODO'''
+    if request.method == "POST":
+        groups = request.form.getlist("groups-chosen")
+        items = []
+        for group in groups:
+            categoryItems = ListService.getAllItemsByCategoryId(int(group))
+            for category in categoryItems:
+                items.append(category)
+        return render_template('multiples/analyze.html', data=items)
 
 
 @app.route('/api/get-historical-data/', methods=["POST"])

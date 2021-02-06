@@ -7,6 +7,9 @@ class ListService:
     def __init__(self):
         self.listRepo = ListRepo()
 
+    def getAllItemsByCategoryId(self, catId):
+        return self.listRepo.getItemsByCategoryId(catId)
+
     def saveList(self, name, length, items, userId):
         success, error = Helpers.isCategoryNameValid(name, userId, length,
                                                      self.listRepo.DEFAULT_MIN_LIST_LENGTH,
