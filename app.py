@@ -60,12 +60,39 @@ def multiples():
 def getData():
     if request.method == "POST":
         groups = request.form.getlist("groups-chosen")
-        items = []
+        store = []
         for group in groups:
             categoryItems = ListService.getAllItemsByCategoryId(int(group))
-            for category in categoryItems:
-                items.append(category)
-        return render_template('multiples/analyze.html', data=items)
+            for item in categoryItems:
+                stockData = {}
+                symbolName = item["item_name"]
+
+                cachedValue = cache.get(getStatisticsDataCacheKey(symbolName))
+                if not cachedValue:
+                    success, data = BaseYahooFinanceService.getStatisticsBySymbolName(symbolName)
+                    cache.set(getStatisticsDataCacheKey(symbolName), [success, data])
+                    userId = session["user_id"]
+                    LoggingService.saveGetStatisticsEvent(userId)
+                else:
+                    success, data = cachedValue[0], cachedValue[1]
+
+                if not success:
+                    flash(data)
+                    return redirect('/multiples')
+
+                response = json.loads(data)
+                stockData["symbol"] = response["symbol"]
+                stockData["financialData"] = response["financialData"]
+                stockData["defaultKeyStatistics"] = response["defaultKeyStatistics"]
+                stockData["summaryDetail"] = response["summaryDetail"]
+
+                store.append(stockData)
+
+        return render_template('multiples/analyze.html', data=store)
+
+    else:
+
+        return redirect('/multiples')
 
 
 @app.route('/api/get-historical-data/', methods=["POST"])
