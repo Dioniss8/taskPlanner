@@ -13,7 +13,8 @@
                     <ul class="list-group">
                     {% for row in data %}
                         <li class="list-group-item">
-                            {{ row }}
+                            <h4>{{ row["symbol"] }}</h4>
+                            {{ row["financialData"] }}
                         </li>
                     {% endfor %}
                     </ul>
