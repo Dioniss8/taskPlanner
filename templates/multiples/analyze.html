@@ -4,23 +4,38 @@
     Yahoo Finance Page
 {% endblock %}
 
+{% block headerScripts %}
+    <link href="/static/table.css" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
 {% block main %}
 
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                {% if data %}
-                    <ul class="list-group">
-                    {% for row in data %}
-                        <li class="list-group-item">
-                            <h4>{{ row["symbol"] }}</h4>
-                            {{ row }}
-                        </li>
+    {% if data %}
+        <div class="table-responsive table-bod">
+        <table class="table">
+            <thead>
+                <tr>
+                    {% for name in keyNames %}
+                        <th scope="col"><small>{{ name }}</small></th>
                     {% endfor %}
-                    </ul>
-                {% endif %}
-            </div>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in data %}
+                    <tr>
+                        {% for key in keys %}
+                            {%  if row[key]["fmt"] %}
+                                <td>{{ row[key]["fmt"] }}</td>
+                            {% else %}
+                                <td>{{ row[key] }}</td>
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
         </div>
-    </div>
+
+    {% endif %}
 
 {% endblock %}

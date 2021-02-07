@@ -99,7 +99,13 @@ def getData():
 
                 store.append(stockData)
 
-        return render_template('multiples/analyze.html', data=store)
+        keys = store[0].keys()
+        keyNames = []
+        for key in keys:
+            keyNames.append(CATEGORY_NAME_MAPPER[key])
+
+        return render_template('multiples/analyze.html',
+                               data=store, keys=keys, keyNames=keyNames)
 
     else:
 

@@ -21,8 +21,31 @@ PAYOUT_RATIO = "payoutRatio"
 TOTAL_REVENUE = "totalRevenue"
 SHARES_SHORT = "sharesShort"
 SHORT_SHARES_OF_FLOAT = "shortPercentOfFloat"
+SYMBOL = "symbol"
 RECOMMENDATION_MEAN = "recommendationMean"
 VOLUME = "volume"
+
+CATEGORY_NAME_MAPPER = {
+    BETA: "Beta",
+    CURRENT_PRICE: "Price",
+    EBITDA: "Ebitda",
+    EBITDA_MARGINS: "Margin",
+    ENTERPRISE_VALUE: "EV",
+    ENTERPRISE_TO_REVENUE: "EV/Rev",
+    ENTERPRISE_TO_EBITDA: "EV/Ebitda",
+    FORWARD_P_TO_E: "forwardPE",
+    FLOAT_SHARES: "FloatShares",
+    FREE_CASH_FLOW: "FCF",
+    OPERATING_CASH_FLOW: "Op.CF",
+    OPERATING_MARGINS: "Margin",
+    PAYOUT_RATIO: "PO",
+    TOTAL_REVENUE: "Revenue",
+    SYMBOL: "symbol",
+    SHARES_SHORT: "Sh.Short",
+    SHORT_SHARES_OF_FLOAT: "Short.Sh.Float",
+    RECOMMENDATION_MEAN: "Recomm.Mean",
+    VOLUME: "vol",
+}
 
 FINANCIAL_STATISTICS_CATEGORIES = [
     CURRENT_PRICE,
@@ -50,3 +73,4 @@ SUMMARY_DETAIL_CATEGORIES = [
     PAYOUT_RATIO,
     VOLUME,
 ]
+
