@@ -1,3 +1,6 @@
+VALUE_TYPE_RAW = "raw"
+VALUE_TYPE_FMT = "fmt"
+
 CATEGORY_DEFAULT_KEY_STATISTICS = "defaultKeyStatistics"
 CATEGORY_FINANCIAL_STATISTICS = "financialStatistics"
 CATEGORY_SUMMARY_DETAIL = "summaryDetail"
@@ -11,9 +14,9 @@ ENTERPRISE_TO_REVENUE = "enterpriseToRevenue"
 ENTERPRISE_TO_EBITDA = "enterpriseToEbitda"
 FORWARD_P_TO_E = "forwardPE"
 FLOAT_SHARES = "floatShares"
-FREE_CASH_FLOW = "freeCashFlow"
+FREE_CASH_FLOW = "freeCashflow"
 OPERATING_MARGINS = "operatingMargins"
-OPERATING_CASH_FLOW = "operatingCashFlow"
+OPERATING_CASH_FLOW = "operatingCashflow"
 PAYOUT_RATIO = "payoutRatio"
 TOTAL_REVENUE = "totalRevenue"
 SHARES_SHORT = "sharesShort"
@@ -47,15 +50,3 @@ SUMMARY_DETAIL_CATEGORIES = [
     PAYOUT_RATIO,
     VOLUME,
 ]
-
-
-def getFinancialStatsCategories():
-    return FINANCIAL_STATISTICS_CATEGORIES
-
-
-def getDefaultKeyStatsCategories():
-    return DEFAULT_KEY_STATISTICS_CATEGORIES
-
-
-def getSummaryDetailCategories():
-    return SUMMARY_DETAIL_CATEGORIES

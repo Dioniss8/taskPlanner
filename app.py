@@ -7,6 +7,7 @@ from src.services.TaskService import TaskService
 from src.services.UserService import UserService
 from src.services.LoggingService import LoggingService
 from src.api.BaseYahooFinanceService import BaseYahooFinanceService
+from src.api.GetStatisticsMapper import *
 from src.helpers.Helpers import login_required, getHistoricalDataCacheKey, getStatisticsDataCacheKey
 
 app = Flask(__name__)
@@ -81,10 +82,20 @@ def getData():
                     return redirect('/multiples')
 
                 response = json.loads(data)
+
                 stockData["symbol"] = response["symbol"]
-                stockData["financialData"] = response["financialData"]
-                stockData["defaultKeyStatistics"] = response["defaultKeyStatistics"]
-                stockData["summaryDetail"] = response["summaryDetail"]
+
+                financialData = response["financialData"]
+                for category in FINANCIAL_STATISTICS_CATEGORIES:
+                    stockData[category] = financialData[category]
+
+                defaultKeyStatistics = response["defaultKeyStatistics"]
+                for category in DEFAULT_KEY_STATISTICS_CATEGORIES:
+                    stockData[category] = defaultKeyStatistics[category]
+
+                summaryDetail = response["summaryDetail"]
+                for category in SUMMARY_DETAIL_CATEGORIES:
+                    stockData[category] = summaryDetail[category]
 
                 store.append(stockData)
 
