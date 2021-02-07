@@ -24,11 +24,13 @@
                 {% for row in data %}
                     <tr>
                         {% for key in keys %}
-                            {%  if row[key]["fmt"] %}
-                                <td>{{ row[key]["fmt"] }}</td>
+                            <td>
+                            {%  if row[key]["raw"] or row[key]["raw"] == 0 %}
+                                {{ row[key]["raw"] }}
                             {% else %}
-                                <td>{{ row[key] }}</td>
+                                {{ row[key] }}
                             {% endif %}
+                            </td>
                         {% endfor %}
                     </tr>
                 {% endfor %}
