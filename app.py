@@ -56,11 +56,62 @@ def multiples():
     return render_template('multiples/index.html', categories=categories)
 
 
+@app.route('/api/multiples/get-data/', methods=["POST"])
+@login_required
+def apiGetData():
+    if request.method == "POST":
+        groups = request.form.getlist("groups-chosen")
+
+        store = []
+        for group in groups:
+            categoryItems = ListService.getAllItemsByCategoryId(int(group))
+            for item in categoryItems:
+                stockData = {}
+                symbolName = item["item_name"]
+
+                cachedValue = cache.get(getStatisticsDataCacheKey(symbolName))
+                if not cachedValue:
+                    success, data = BaseYahooFinanceService.getStatisticsBySymbolName(symbolName)
+                    cache.set(getStatisticsDataCacheKey(symbolName), [success, data])
+                    userId = session["user_id"]
+                    LoggingService.saveGetStatisticsEvent(userId)
+                else:
+                    success, data = cachedValue[0], cachedValue[1]
+
+                if not success:
+                    flash(data)
+                    return redirect('/multiples')
+
+                response = json.loads(data)
+
+                stockData["symbol"] = response["symbol"]
+
+                financialData = response["financialData"]
+                for category in FINANCIAL_STATISTICS_CATEGORIES:
+                    stockData[category] = financialData[category]
+
+                defaultKeyStatistics = response["defaultKeyStatistics"]
+                for category in DEFAULT_KEY_STATISTICS_CATEGORIES:
+                    stockData[category] = defaultKeyStatistics[category]
+
+                summaryDetail = response["summaryDetail"]
+                for category in SUMMARY_DETAIL_CATEGORIES:
+                    stockData[category] = summaryDetail[category]
+
+                store.append(stockData)
+
+        return json.jsonify({
+            'success': True,
+            'data': store,
+        })
+
+
 @app.route('/multiples/get-data', methods=["POST"])
 @login_required
 def getData():
     if request.method == "POST":
         groups = request.form.getlist("groups-chosen")
+
         store = []
         for group in groups:
             categoryItems = ListService.getAllItemsByCategoryId(int(group))

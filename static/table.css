@@ -3,3 +3,8 @@
     margin-left: 0;
     padding: 0 !important;
 }
+
+.thead-light{
+    color: #000072;
+    border-color: #32383e;
+}
