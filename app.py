@@ -60,7 +60,7 @@ def multiples():
 @login_required
 def apiGetData():
     if request.method == "POST":
-        groups = request.form.getlist("groups-chosen")
+        groups = request.form.getlist('groups-chosen[]')
 
         store = []
         for group in groups:

@@ -8,12 +8,12 @@ function onButtonClicked() {
     }
 
     $.ajax({
-        url: "/api/multiples/get-data",
+        url: "/api/multiples/get-data/",
         dataType: "json",
         type: "POST",
         data: {"groups-chosen": ids},
     }).done(function (res) {
-        console.log(res);
+        console.log(res.data);
     })
 
     console.log(ids);
