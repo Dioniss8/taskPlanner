@@ -27,6 +27,9 @@
                             <td>
                             {%  if row[key]["raw"] or row[key]["raw"] == 0 %}
                                 {{ row[key]["raw"] }}
+                                {% if row[key]["multiple"] %}
+                                    , {{ row[key]["mulitple"] }}
+                                {% endif %}
                             {% else %}
                                 {{ row[key] }}
                             {% endif %}

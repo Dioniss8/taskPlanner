@@ -19,11 +19,19 @@ OPERATING_MARGINS = "operatingMargins"
 OPERATING_CASH_FLOW = "operatingCashflow"
 PAYOUT_RATIO = "payoutRatio"
 TOTAL_REVENUE = "totalRevenue"
+SHARES_OUTSTANDING = "sharesOutstanding"
 SHARES_SHORT = "sharesShort"
 SHORT_SHARES_OF_FLOAT = "shortPercentOfFloat"
 SYMBOL = "symbol"
+TOTAL_EQUITY_VALUE = "totalEquityValue"
 RECOMMENDATION_MEAN = "recommendationMean"
 VOLUME = "volume"
+
+CATEGORIES_MULTIPLES_CALCULATION = [
+    EBITDA,
+    TOTAL_REVENUE,
+    FREE_CASH_FLOW,
+]
 
 CATEGORY_NAME_MAPPER = {
     BETA: "Beta",
@@ -41,8 +49,10 @@ CATEGORY_NAME_MAPPER = {
     PAYOUT_RATIO: "PO",
     TOTAL_REVENUE: "Revenue",
     SYMBOL: "symbol",
+    SHARES_OUTSTANDING: "totalShares",
     SHARES_SHORT: "Sh.Short",
     SHORT_SHARES_OF_FLOAT: "Short.Sh.Float",
+    TOTAL_EQUITY_VALUE: "EquityValue",
     RECOMMENDATION_MEAN: "Recomm.Mean",
     VOLUME: "vol",
 }
@@ -63,6 +73,7 @@ DEFAULT_KEY_STATISTICS_CATEGORIES = [
     ENTERPRISE_TO_REVENUE,
     ENTERPRISE_TO_EBITDA,
     FLOAT_SHARES,
+    SHARES_OUTSTANDING,
     SHARES_SHORT,
     SHORT_SHARES_OF_FLOAT,
 ]
