@@ -13,7 +13,12 @@ function onButtonClicked() {
         type: "POST",
         data: {"groups-chosen": ids},
     }).done(function (res) {
-        console.log(res.data);
+        if (res.success > 0) {
+            Object.keys(res.data).forEach(function (key) {
+                console.log(res.data[key]);
+                console.log(key);
+            })
+        }
     })
 
     console.log(ids);
