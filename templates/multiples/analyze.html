@@ -26,10 +26,14 @@
                         {% for key in keys %}
                             <td>
                             {%  if row[key]["raw"] or row[key]["raw"] == 0 %}
-                                {{ row[key]["raw"] }}
+                                {{ row[key]["fmt"] }}
+
                                 {% if row[key]["multiple"] %}
-                                    , {{ row[key]["mulitple"] }}
+                                    <span style="color:darkred">
+                                        ({{ row[key]["multiple"] }})
+                                    </span>
                                 {% endif %}
+
                             {% else %}
                                 {{ row[key] }}
                             {% endif %}

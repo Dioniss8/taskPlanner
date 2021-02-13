@@ -139,13 +139,14 @@ def getData():
                 totalSharesOut = response["defaultKeyStatistics"][SHARES_OUTSTANDING][VALUE_TYPE_RAW]
                 currentPrice = response["financialData"][CURRENT_PRICE][VALUE_TYPE_RAW]
                 totalEquityValue = int(totalSharesOut) * float(currentPrice)
-                stockData[TOTAL_EQUITY_VALUE] = totalEquityValue
 
                 financialData = response["financialData"]
                 for category in FINANCIAL_STATISTICS_CATEGORIES:
                     stockData[category] = financialData[category]
                     if category in CATEGORIES_MULTIPLES_CALCULATION:
-                        stockData[category]["multiple"] = totalEquityValue/stockData[category][VALUE_TYPE_RAW]
+                        multipleValue = totalEquityValue/stockData[category][VALUE_TYPE_RAW]
+                        multipleValue = format(multipleValue, '.2f')
+                        stockData[category]["multiple"] = multipleValue
 
                 defaultKeyStatistics = response["defaultKeyStatistics"]
                 for category in DEFAULT_KEY_STATISTICS_CATEGORIES:
