@@ -54,7 +54,7 @@ CATEGORY_NAME_MAPPER = {
     SHARES_SHORT: "Sh.Short",
     SHORT_SHARES_OF_FLOAT: "Short.Sh.Float",
     TOTAL_EQUITY_VALUE: "EquityValue",
-    RECOMMENDATION_MEAN: "Recomm.Mean",
+    RECOMMENDATION_MEAN: "Rec.",
     VOLUME: "vol",
 }
 
